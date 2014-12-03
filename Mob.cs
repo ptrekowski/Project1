@@ -3,11 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using WindowsInput;
+using Interceptor;
 
 namespace Penguin2
 {
     public class Mob
     {
+        // Interceptor
+        Input input = new Input();
+
         private float absoluteX = 0.0f;
         private float absoluteY = 0.0f;
         private float absoluteZ = 0.0f;
@@ -136,6 +140,12 @@ namespace Penguin2
             degrees = (float)(Math.Atan2(realY, realX));
 
             return degrees;
+        }
+
+        public void attack1()
+        {
+            input.SendKey(Keys.Two);
+            
         }
 
         public void startMoveForward()

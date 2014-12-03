@@ -37,6 +37,10 @@
     <Reference Include="InputSimulator">
       <HintPath>..\..\..\..\..\Downloads\InputSimulator.0.1.0.0-bin\InputSimulator.0.1.0.0-bin\Release\InputSimulator.dll</HintPath>
     </Reference>
+    <Reference Include="Interceptor, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Interceptor\Interceptor\obj\x86\Debug\Interceptor.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Xna.Framework, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86" />
     <Reference Include="Microsoft.Xna.Framework.Graphics, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86" />
     <Reference Include="ProcessPrivileges">
@@ -60,7 +64,6 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="ImageRotator.cs" />
     <Compile Include="InterruptKeyHandler.cs" />
     <Compile Include="Mob.cs" />
     <Compile Include="Player.cs" />

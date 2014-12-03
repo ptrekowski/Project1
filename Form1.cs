@@ -16,6 +16,7 @@ namespace Penguin2
 {
     public partial class Form1 : Form
     {
+        public static float intToDegrees = 11.3778f;
         // for interrupt key
         private KeyHandler ghk;
         private bool stopPathingLoop = false;
@@ -61,8 +62,8 @@ namespace Penguin2
             firstPlayer.updatePosition();
             listBoxWaypoints.Items.Add(firstPlayer.AbsoluteX + ", " + firstPlayer.AbsoluteY + ", " + firstPlayer.AbsoluteZ);
             listBoxWaypoints.Items.Add(firstPlayer.calculateDistanceToNextPoint());
-            listBoxWaypoints.Items.Add(firstPlayer.calculateDestinationDirection());
-            listBoxWaypoints.Items.Add(firstPlayer.AbsoluteFacing);
+            //listBoxWaypoints.Items.Add(firstPlayer.calculateDestinationDirection());
+            listBoxWaypoints.Items.Add(firstPlayer.AbsoluteFacing / intToDegrees + " degrees");
 
         }
 
@@ -82,7 +83,8 @@ namespace Penguin2
             lblX.Text = firstPlayer.AbsoluteX.ToString();
             lblY.Text = firstPlayer.AbsoluteY.ToString();
             lblZ.Text = firstPlayer.AbsoluteZ.ToString();
-            lblFacing.Text = firstPlayer.AbsoluteFacing.ToString();
+            lblFacing.Text = (firstPlayer.AbsoluteFacing / intToDegrees + " degrees").ToString();
+
         }
 
 
@@ -123,6 +125,13 @@ namespace Penguin2
         private void timer1_Tick(object sender, EventArgs e)
         {
             updateUI();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            winHndForFirstMob.setGameToFocusWindow();
+            System.Threading.Thread.Sleep(100);
+            firstPlayer.attack1();
         }
 
     }

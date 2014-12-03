@@ -11,3 +11,5 @@ C:\Users\Pablo\Documents\Visual Studio 2010\Projects\Penguin2\Penguin2\obj\x86\D
 C:\Users\Pablo\Documents\Visual Studio 2010\Projects\Penguin2\Penguin2\bin\Debug\InputSimulator.dll
 C:\Users\Pablo\Documents\Visual Studio 2010\Projects\Penguin2\Penguin2\bin\Debug\InputSimulator.pdb
 C:\Users\Pablo\Documents\Visual Studio 2010\Projects\Penguin2\Penguin2\bin\Debug\InputSimulator.xml
+C:\Users\Pablo\Documents\Visual Studio 2010\Projects\Penguin2\Penguin2\bin\Debug\Interceptor.pdb
+C:\Users\Pablo\Documents\Visual Studio 2010\Projects\Penguin2\Penguin2\bin\Debug\Interceptor.dll
