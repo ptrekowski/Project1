@@ -1,0 +1,13 @@
+c:\users\pablo\documents\visual studio 2010\Projects\Penguin2\Penguin2\obj\x86\Debug\Penguin2.Properties.Resources.resources
+c:\users\pablo\documents\visual studio 2010\Projects\Penguin2\Penguin2\obj\x86\Debug\Penguin2.csproj.GenerateResource.Cache
+C:\Users\Pablo\Documents\Visual Studio 2010\Projects\Penguin2\Penguin2\obj\x86\Debug\Penguin2.Form1.resources
+C:\Users\Pablo\Documents\Visual Studio 2010\Projects\Penguin2\Penguin2\bin\Debug\Penguin2.exe
+C:\Users\Pablo\Documents\Visual Studio 2010\Projects\Penguin2\Penguin2\bin\Debug\Penguin2.pdb
+C:\Users\Pablo\Documents\Visual Studio 2010\Projects\Penguin2\Penguin2\obj\x86\Debug\Penguin2.exe
+C:\Users\Pablo\Documents\Visual Studio 2010\Projects\Penguin2\Penguin2\obj\x86\Debug\Penguin2.pdb
+C:\Users\Pablo\Documents\Visual Studio 2010\Projects\Penguin2\Penguin2\bin\Debug\ProcessPrivileges.dll
+C:\Users\Pablo\Documents\Visual Studio 2010\Projects\Penguin2\Penguin2\bin\Debug\ProcessPrivileges.xml
+C:\Users\Pablo\Documents\Visual Studio 2010\Projects\Penguin2\Penguin2\obj\x86\Debug\Penguin2.csprojResolveAssemblyReference.cache
+C:\Users\Pablo\Documents\Visual Studio 2010\Projects\Penguin2\Penguin2\bin\Debug\InputSimulator.dll
+C:\Users\Pablo\Documents\Visual Studio 2010\Projects\Penguin2\Penguin2\bin\Debug\InputSimulator.pdb
+C:\Users\Pablo\Documents\Visual Studio 2010\Projects\Penguin2\Penguin2\bin\Debug\InputSimulator.xml
