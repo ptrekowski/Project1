@@ -264,24 +264,6 @@ namespace Penguin2
                     MessageBox.Show("Failed to open process");
                 }
 
-                //MessageBox.Show("ProccID: " + proccID.ToString());
-                //MessageBox.Show("pHandle: " + pHandle.ToString());
-
-                //Now we get the base_address of the module Game.dll because we need this later for Player information (Game.dll+Offsets)
-                //ProcessModuleCollection modules = procs[0].Modules;
-
-                // work around
-                //base_adress = modules[0].BaseAddress.ToInt32();
-
-
-                //foreach (ProcessModule module in modules)
-                //{
-                //    if (module.ModuleName == processName)
-                //    {
-                //        base_adress = module.BaseAddress.ToInt32();
-                //    }
-                //}
-
             }
 
         }

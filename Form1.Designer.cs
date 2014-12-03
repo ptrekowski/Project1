@@ -29,17 +29,14 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.btnAddWaypoint = new System.Windows.Forms.Button();
             this.listBoxWaypoints = new System.Windows.Forms.ListBox();
             this.btnStart = new System.Windows.Forms.Button();
-            this.pctCompass = new System.Windows.Forms.PictureBox();
             this.lblX = new System.Windows.Forms.Label();
             this.lblY = new System.Windows.Forms.Label();
             this.lblZ = new System.Windows.Forms.Label();
             this.lblFacing = new System.Windows.Forms.Label();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            ((System.ComponentModel.ISupportInitialize)(this.pctCompass)).BeginInit();
             this.SuspendLayout();
             // 
             // btnAddWaypoint
@@ -69,16 +66,6 @@
             this.btnStart.Text = "Start";
             this.btnStart.UseVisualStyleBackColor = true;
             this.btnStart.Click += new System.EventHandler(this.btnStart_Click);
-            // 
-            // pctCompass
-            // 
-            this.pctCompass.Image = ((System.Drawing.Image)(resources.GetObject("pctCompass.Image")));
-            this.pctCompass.Location = new System.Drawing.Point(12, 135);
-            this.pctCompass.Name = "pctCompass";
-            this.pctCompass.Size = new System.Drawing.Size(62, 61);
-            this.pctCompass.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            this.pctCompass.TabIndex = 3;
-            this.pctCompass.TabStop = false;
             // 
             // lblX
             // 
@@ -130,14 +117,12 @@
             this.Controls.Add(this.lblZ);
             this.Controls.Add(this.lblY);
             this.Controls.Add(this.lblX);
-            this.Controls.Add(this.pctCompass);
             this.Controls.Add(this.btnStart);
             this.Controls.Add(this.listBoxWaypoints);
             this.Controls.Add(this.btnAddWaypoint);
             this.Name = "Form1";
-            this.Text = "a";
+            this.Text = "Waypoints";
             this.TopMost = true;
-            ((System.ComponentModel.ISupportInitialize)(this.pctCompass)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -148,7 +133,6 @@
         private System.Windows.Forms.Button btnAddWaypoint;
         private System.Windows.Forms.ListBox listBoxWaypoints;
         private System.Windows.Forms.Button btnStart;
-        private System.Windows.Forms.PictureBox pctCompass;
         private System.Windows.Forms.Label lblX;
         private System.Windows.Forms.Label lblY;
         private System.Windows.Forms.Label lblZ;
