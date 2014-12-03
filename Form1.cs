@@ -19,6 +19,7 @@ namespace Penguin2
         // for interrupt key
         private KeyHandler ghk;
         private bool stopPathingLoop = false;
+        private bool movingForward = false;
 
         // Game Specific Information
 
@@ -57,11 +58,11 @@ namespace Penguin2
 
         private void btnAddWaypoint_Click(object sender, EventArgs e)
         {
-            firstPlayer.updateMob();
+            firstPlayer.updatePosition();
             listBoxWaypoints.Items.Add(firstPlayer.AbsoluteX + ", " + firstPlayer.AbsoluteY + ", " + firstPlayer.AbsoluteZ);
             listBoxWaypoints.Items.Add(firstPlayer.calculateDistanceToNextPoint());
             listBoxWaypoints.Items.Add(firstPlayer.calculateDestinationDirection());
-            listBoxWaypoints.Items.Add(firstPlayer.MobFacing);
+            listBoxWaypoints.Items.Add(firstPlayer.AbsoluteFacing);
 
         }
 
@@ -77,34 +78,33 @@ namespace Penguin2
             base.WndProc(ref m);
         }
         private void updateUI () {
-            firstPlayer.updateMob();
+            firstPlayer.updatePosition();
             lblX.Text = firstPlayer.AbsoluteX.ToString();
             lblY.Text = firstPlayer.AbsoluteY.ToString();
             lblZ.Text = firstPlayer.AbsoluteZ.ToString();
-            lblFacing.Text = firstPlayer.MobFacing.ToString();
+            lblFacing.Text = firstPlayer.AbsoluteFacing.ToString();
         }
 
+
+        // Tester
         private void btnStart_Click(object sender, EventArgs e)
         {
-            firstMob.updateMob();
+            firstPlayer.updatePosition();
             int thisStepCount = 0;
-            bool movingForward = false;
-            // prime the time2
+
+            // prime the time
             DateTime now = DateTime.Now;
             DateTime next = now.AddMilliseconds(1000);
 
             while ( thisStepCount < 30)
             {
-                
-                
-
                 // fire this event
                 if (now.Millisecond >= next.Millisecond)
                 {
                     winHndForFirstMob.setGameToFocusWindow();
                     System.Threading.Thread.Sleep(50);
-                    firstMob.startMoveForward();
-                    firstMob.updateMob();
+                    firstPlayer.startMoveForward();
+                    firstPlayer.updatePosition();
                     movingForward = true;
                     now = DateTime.Now;
                     next = now.AddMilliseconds(1000);
@@ -114,9 +114,9 @@ namespace Penguin2
                 thisStepCount++;
                 Application.DoEvents();
             }
-            firstMob.stopMoveForward();
+            firstPlayer.stopMoveForward();
             System.Threading.Thread.Sleep(50);
-            firstMob.updateMob();
+            firstPlayer.updatePosition();
             movingForward = false;
         }
 

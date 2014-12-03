@@ -11,7 +11,7 @@ namespace Penguin2
         private float absoluteX = 0.0f;
         private float absoluteY = 0.0f;
         private float absoluteZ = 0.0f;
-        private int mobFacing;
+        private int currentFacing;
         private float distanceToWaypoint;
         
 
@@ -35,17 +35,17 @@ namespace Penguin2
             absoluteX = 0.0f;
             absoluteY = 0.0f;
             absoluteZ = 0.0f;
-            mobFacing = 0;
+            currentFacing = 0;
 
             ReadMemory.OpenProcess(gameProcessName, index);
         }
 
-        public void updateMob()
+        public void updatePosition()
         {
             absoluteX = ReadMemory.readFloat(MemoryAddresses.absoluteXAddress);
             absoluteY = ReadMemory.readFloat(MemoryAddresses.absoluteYAddress);
             absoluteZ = ReadMemory.readFloat(MemoryAddresses.absoluteZAddress);
-            mobFacing = ReadMemory.readInt(MemoryAddresses.mobFacingAddress);
+            currentFacing = ReadMemory.readInt(MemoryAddresses.mobFacingAddress);
         }
 
         public float calculateDistanceToNextPoint()
@@ -55,12 +55,13 @@ namespace Penguin2
             return distanceToNextPoint;
         }
 
+        // ** Finish by adding z-index to calculation
         public int calculateDestinationDirection() // Point startPoint, Point endPoint 
         {
             double degrees;
             double deltaX;
             double deltaY;
-            double deltaZ;
+            //double deltaZ;
             double radians;
 
             deltaX = absoluteX - Waypoint.nextX;
@@ -122,7 +123,7 @@ namespace Penguin2
                 directionInDegrees = (((radiansToDegrees(realX, realY)) * -1) + 90) + 90;
             }
 
-            // use to turn it back into a radian value
+            // use to convert into a radian value
             //float rotateToThisDirection = (float)((2 * Math.PI) / 360) * directionInDegrees;
             float rotateToThisDirection = directionInDegrees;
 
@@ -147,8 +148,6 @@ namespace Penguin2
             InputSimulator.SimulateKeyUp(VirtualKeyCode.VK_A);
         }
 
-
-
         public float AbsoluteX
         {
             get { return this.absoluteX; }
@@ -164,9 +163,9 @@ namespace Penguin2
             get { return this.absoluteZ; }
         }
 
-        public int MobFacing
+        public int AbsoluteFacing
         {
-            get { return this.mobFacing; }
+            get { return this.currentFacing; }
         }
 
         public float DistanceToWaypoint
