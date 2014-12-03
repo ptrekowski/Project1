@@ -26,8 +26,6 @@ namespace Penguin2
         
         static IntPtr gameWindowHandle; // specific to each individual game window
 
-        // image Resource
-        //Image img = pctCompass.Image;
 
 
         // Loop Variables //////////
@@ -37,11 +35,10 @@ namespace Penguin2
 
         int accuracyEpsilon = 5; // Set this for accuracy to target
 
-        Mob firstMob = new Mob(gameProcessName, 0); // First Character
-        //Mob secondMob = new Mob(gameProcessName, 1); // Second Character
+        Player firstPlayer = new Player(gameProcessName, 0); // First Character
+        
 
         WinHandleMethods winHndForFirstMob;
-        //WinHandleMethods winHndForSecondMob = new WinHandleMethods(gameProcessName, 1);
 
         public Form1()
         {
@@ -55,22 +52,17 @@ namespace Penguin2
 
         private void btnFaceDestination_Click(object sender, EventArgs e)
         {
-            while (movingLoop)
-            {
 
-            }
         }
 
         private void btnAddWaypoint_Click(object sender, EventArgs e)
         {
-            firstMob.updateMob();
-            listBoxWaypoints.Items.Add(firstMob.AbsoluteX + ", " + firstMob.AbsoluteY + ", " + firstMob.AbsoluteZ);
-            listBoxWaypoints.Items.Add(firstMob.calculateDistanceToNextPoint());
-            //listBoxWaypoints.Items.Add(firstMob.calculateDirectionToNextPoint());
-            listBoxWaypoints.Items.Add(firstMob.calculateDestinationDirection());
-            listBoxWaypoints.Items.Add(firstMob.MobFacing);
-            //img = ImageRotator.RotateImage(img, -5.0f);
-            //pctCompass.Image = img;
+            firstPlayer.updateMob();
+            listBoxWaypoints.Items.Add(firstPlayer.AbsoluteX + ", " + firstPlayer.AbsoluteY + ", " + firstPlayer.AbsoluteZ);
+            listBoxWaypoints.Items.Add(firstPlayer.calculateDistanceToNextPoint());
+            listBoxWaypoints.Items.Add(firstPlayer.calculateDestinationDirection());
+            listBoxWaypoints.Items.Add(firstPlayer.MobFacing);
+
         }
 
         private void HandleHotkey()
@@ -85,11 +77,11 @@ namespace Penguin2
             base.WndProc(ref m);
         }
         private void updateUI () {
-            firstMob.updateMob();
-           lblX.Text = firstMob.absoluteX.ToString();
-           lblY.Text = firstMob.absoluteY.ToString();
-           lblZ.Text = firstMob.absoluteZ.ToString();
-            lblFacing.Text = firstMob.mobFacing.ToString();
+            firstPlayer.updateMob();
+            lblX.Text = firstPlayer.AbsoluteX.ToString();
+            lblY.Text = firstPlayer.AbsoluteY.ToString();
+            lblZ.Text = firstPlayer.AbsoluteZ.ToString();
+            lblFacing.Text = firstPlayer.MobFacing.ToString();
         }
 
         private void btnStart_Click(object sender, EventArgs e)

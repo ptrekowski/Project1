@@ -8,10 +8,10 @@ namespace Penguin2
 {
     public class Mob
     {
-        public float absoluteX = 0.0f;
-        public float absoluteY = 0.0f;
-        public float absoluteZ = 0.0f;
-        public int mobFacing;
+        private float absoluteX = 0.0f;
+        private float absoluteY = 0.0f;
+        private float absoluteZ = 0.0f;
+        private int mobFacing;
         private float distanceToWaypoint;
         
 
@@ -46,8 +46,6 @@ namespace Penguin2
             absoluteY = ReadMemory.readFloat(MemoryAddresses.absoluteYAddress);
             absoluteZ = ReadMemory.readFloat(MemoryAddresses.absoluteZAddress);
             mobFacing = ReadMemory.readInt(MemoryAddresses.mobFacingAddress);
-
-            
         }
 
         public float calculateDistanceToNextPoint()
@@ -142,8 +140,6 @@ namespace Penguin2
         public void startMoveForward()
         {
             InputSimulator.SimulateKeyDown(VirtualKeyCode.VK_A);
-            //System.Threading.Thread.Sleep(200);
-            //InputSimulator.SimulateKeyUp(VirtualKeyCode.VK_A);
         }
 
         public void stopMoveForward()
@@ -181,5 +177,6 @@ namespace Penguin2
                 return distanceToWaypoint; 
             }
         }
+
     }
 }
