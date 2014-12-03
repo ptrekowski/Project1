@@ -27,12 +27,6 @@ namespace Penguin2
         {
             Process[] processes = Process.GetProcessesByName(gameWindowName);
 
-            //foreach (Process p in processes)
-            //{
-                //pFoundWindow = p.MainWindowHandle;
-            //}
-            //System.Windows.Forms.MessageBox.Show(processes.Length.ToString());
-            //pFoundWindow = processes[processNumber].MainWindowHandle;
             pFoundWindow = processes[processNumber].MainWindowHandle;
 
             return pFoundWindow;
@@ -40,7 +34,6 @@ namespace Penguin2
         public void setGameToFocusWindow()
         {
             SetForegroundWindow(getGameWindowHandle(processNumber));
-            //MessageBox.Show("focused");
         }
     }
 }
