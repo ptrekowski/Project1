@@ -74,35 +74,78 @@ namespace Penguin2
         }
 
         // ** Finish by adding z-index to calculation
-        public int calculateDestinationDirection()
+        public int calcNextWpDir()
         {
-            double degrees;
-            double deltaX;
-            double deltaY;
-            //double deltaZ;
-            double radians;
+            // destination - current
+            // (0,-1)   N
+            // (-1,-1)  NW
+            // (-1,0)   W
+            // (-1,1)   SW
+            // (0,1)    S
+            // (1,1)    SE
+            // (1,0)    E
+            // (1,-1    )NE
+            float dir;
+            float deltaX = (nextWaypoint.X - currWaypoint.X);
+            float deltaY = (nextWaypoint.Y - currWaypoint.Y);
+            float deltaZ = (nextWaypoint.Z - currWaypoint.Z);
 
-            deltaX = absoluteX - NextWaypoint.X;
-            deltaY = absoluteY - NextWaypoint.X;
-
-            radians = Math.Atan2(deltaY, deltaX);
-            System.Console.WriteLine("radians: " + radians.ToString());
-
-            //radians = Math.PI / 2 - radians;
-            System.Console.WriteLine("radians2: " + radians.ToString());
-            degrees = radians * (180 / Math.PI);
-
-            System.Console.WriteLine("delta X: " + deltaX.ToString());
-            System.Console.WriteLine("delta y: " + deltaY.ToString());
-
-            degrees += 270.0f;
-            if (degrees >= 360)
+            if (deltaX < 0)
             {
-                degrees -= 360.0f;
+                // NW, W, SW
+                if (deltaY < 0)
+                {
+                    // NW
+                    // 2047 > dir > 1024
+                }
+                else if (deltaY > 0)
+                {
+                    // SW
+                    // 1024 > dir >= 0  This is the edge-case, 0 represents the first degree in rotation metric
+                }
+                else
+                {
+                    // W
+                    // dir = 1024
+                }
+
+            }
+            else if (deltaX > 0)
+            {
+                //SE, E, NE
+                if (deltaY < 0)
+                {
+                    // NE
+                    // 3072 > dir > 2047
+
+                }
+                else if (deltaY > 0)
+                {
+                    // SE
+                    // 4095 >= dir > 3072 This is the opposite edge-case of SW
+
+                }
+                else
+                {
+                    // E
+                    // dir = 3072
+                }
+            }
+            else
+            {
+                // N, S
+                if (deltaY < 0)
+                {
+                    // N
+                }
+                else
+                {
+                    // S
+                }
             }
 
-
-            return (int)Math.Ceiling(degrees);
+            //dir = (float)(Math.Sqrt(Math.Pow(deltaX, 2) + Math.Pow(deltaY, 2) + Math.Pow(deltaZ,2)));
+            return (int)dir;
         }
 
         public float calculateDirectionToNextPoint()

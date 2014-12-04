@@ -107,12 +107,12 @@ namespace Penguin2
         }
 
         private void update() {
-            //firstPlayer.updatePosition();
+            firstPlayer.updatePosition();
             lblX.Text = firstPlayer.AbsoluteX.ToString();
             lblY.Text = firstPlayer.AbsoluteY.ToString();
             lblZ.Text = firstPlayer.AbsoluteZ.ToString();
-            lblFacing.Text = (firstPlayer.AbsoluteFacing / intToDegrees + " degrees").ToString();
-            lblFaceDir.Text = firstPlayer.calculateDestinationDirection().ToString();
+            lblFacing.Text = (firstPlayer.AbsoluteFacing).ToString();
+            lblFaceDir.Text = firstPlayer.calcNextWpDir().ToString();
 
         }
 
@@ -190,7 +190,7 @@ namespace Penguin2
 
         private void btnFaceTar_Click(object sender, EventArgs e)
         {
-            
+            listBoxWaypoints.Items.Add( firstPlayer.calcNextWpDir());
         }
 
     }
