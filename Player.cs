@@ -73,8 +73,9 @@ namespace Penguin2
             return distanceToNextPoint;
         }
 
-        // ** Finish by adding z-index to calculation
-        public int calcNextWpDir()
+
+        // ** UpdateNextWaypoint MUST be called before this **
+        public float calcNextWpDir()
         {
             // destination - current
             // (0,-1)   N
@@ -85,10 +86,14 @@ namespace Penguin2
             // (1,1)    SE
             // (1,0)    E
             // (1,-1    )NE
-            float dir;
+
+            this.updatePosition();
+            float dir = 0;
             float deltaX = (nextWaypoint.X - currWaypoint.X);
             float deltaY = (nextWaypoint.Y - currWaypoint.Y);
             float deltaZ = (nextWaypoint.Z - currWaypoint.Z);
+            float cutoff = 2048.0f;
+            double radians = 0;
 
             if (deltaX < 0)
             {
@@ -97,16 +102,21 @@ namespace Penguin2
                 {
                     // NW
                     // 2047 > dir > 1024
+                    
+                    radians = Math.Atan2(Math.Abs(deltaY), Math.Abs(deltaX));
+                    dir = (float)(radians * 2048/Math.PI);
                 }
                 else if (deltaY > 0)
                 {
                     // SW
                     // 1024 > dir >= 0  This is the edge-case, 0 represents the first degree in rotation metric
+                    dir = 500;
                 }
                 else
                 {
                     // W
                     // dir = 1024
+                    dir = 1024;
                 }
 
             }
@@ -117,18 +127,20 @@ namespace Penguin2
                 {
                     // NE
                     // 3072 > dir > 2047
+                    dir = 2500;
 
                 }
                 else if (deltaY > 0)
                 {
                     // SE
                     // 4095 >= dir > 3072 This is the opposite edge-case of SW
-
+                    dir = 3500;
                 }
                 else
                 {
                     // E
                     // dir = 3072
+                    dir = 3072;
                 }
             }
             else
@@ -137,15 +149,16 @@ namespace Penguin2
                 if (deltaY < 0)
                 {
                     // N
+                    dir = 2047;
                 }
                 else
                 {
                     // S
+                    dir = 4095;
                 }
             }
 
-            //dir = (float)(Math.Sqrt(Math.Pow(deltaX, 2) + Math.Pow(deltaY, 2) + Math.Pow(deltaZ,2)));
-            return (int)dir;
+            return dir;
         }
 
         public float calculateDirectionToNextPoint()

@@ -44,6 +44,7 @@
             this.btnWpShow = new System.Windows.Forms.Button();
             this.btnFaceTar = new System.Windows.Forms.Button();
             this.lblFaceDir = new System.Windows.Forms.Label();
+            this.btnUpdateWP = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btnAddWaypoint
@@ -128,7 +129,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(10, 304);
+            this.label1.Location = new System.Drawing.Point(9, 283);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(69, 13);
             this.label1.TabIndex = 9;
@@ -137,7 +138,7 @@
             // lblDestDelta
             // 
             this.lblDestDelta.AutoSize = true;
-            this.lblDestDelta.Location = new System.Drawing.Point(13, 321);
+            this.lblDestDelta.Location = new System.Drawing.Point(18, 296);
             this.lblDestDelta.Name = "lblDestDelta";
             this.lblDestDelta.Size = new System.Drawing.Size(35, 13);
             this.lblDestDelta.TabIndex = 10;
@@ -165,7 +166,7 @@
             // 
             // btnFaceTar
             // 
-            this.btnFaceTar.Location = new System.Drawing.Point(4, 337);
+            this.btnFaceTar.Location = new System.Drawing.Point(3, 312);
             this.btnFaceTar.Name = "btnFaceTar";
             this.btnFaceTar.Size = new System.Drawing.Size(75, 23);
             this.btnFaceTar.TabIndex = 13;
@@ -182,11 +183,22 @@
             this.lblFaceDir.TabIndex = 14;
             this.lblFaceDir.Text = "label2";
             // 
+            // btnUpdateWP
+            // 
+            this.btnUpdateWP.Location = new System.Drawing.Point(3, 342);
+            this.btnUpdateWP.Name = "btnUpdateWP";
+            this.btnUpdateWP.Size = new System.Drawing.Size(75, 23);
+            this.btnUpdateWP.TabIndex = 15;
+            this.btnUpdateWP.Text = "Update WP";
+            this.btnUpdateWP.UseVisualStyleBackColor = true;
+            this.btnUpdateWP.Click += new System.EventHandler(this.btnUpdateWP_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(526, 389);
+            this.Controls.Add(this.btnUpdateWP);
             this.Controls.Add(this.lblFaceDir);
             this.Controls.Add(this.btnFaceTar);
             this.Controls.Add(this.btnWpShow);
@@ -226,6 +238,7 @@
         private System.Windows.Forms.Button btnWpShow;
         private System.Windows.Forms.Button btnFaceTar;
         private System.Windows.Forms.Label lblFaceDir;
+        private System.Windows.Forms.Button btnUpdateWP;
 
     }
 }

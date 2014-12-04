@@ -112,7 +112,7 @@ namespace Penguin2
             lblY.Text = firstPlayer.AbsoluteY.ToString();
             lblZ.Text = firstPlayer.AbsoluteZ.ToString();
             lblFacing.Text = (firstPlayer.AbsoluteFacing).ToString();
-            lblFaceDir.Text = firstPlayer.calcNextWpDir().ToString();
+            
 
         }
 
@@ -190,8 +190,16 @@ namespace Penguin2
 
         private void btnFaceTar_Click(object sender, EventArgs e)
         {
+            
             listBoxWaypoints.Items.Add( firstPlayer.calcNextWpDir());
+            lblFaceDir.Text = firstPlayer.calcNextWpDir().ToString();
+        }
+
+        private void btnUpdateWP_Click(object sender, EventArgs e)
+        {
+            firstPlayer.updateNextWaypoint();
         }
 
     }
 }
+                                                                                                
