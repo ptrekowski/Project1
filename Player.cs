@@ -22,7 +22,7 @@ namespace Penguin2
         private Waypoint currWaypoint = null;
         private Waypoint nextWaypoint = null;
 
-        private bool getNextWaypoint = false;
+        public bool getNextWaypoint = false;
 
         public struct MemoryAddresses
         {
@@ -56,7 +56,10 @@ namespace Penguin2
         {
             // distance to next point is currPosition - 
             float distanceToNextPoint;
-            distanceToNextPoint = (float)Math.Sqrt(Math.Abs(((double)Waypoint.nextX - (double)absoluteX) + ((double)Waypoint.nextY - (double)absoluteY)));
+            float a = Math.Abs(CurrWaypoint.X - NextWaypoint.X);
+            float b = Math.Abs(CurrWaypoint.Y - NextWaypoint.Y);
+            float c = Math.Abs(CurrWaypoint.Z - NextWaypoint.Z);
+            distanceToNextPoint = (float)Math.Sqrt((a*a)+(b*b)+(c*c));
             return distanceToNextPoint;
         }
 
@@ -167,12 +170,11 @@ namespace Penguin2
             get { return this.currWaypoint; }
         }
 
-        public void setNextWaypoint()
+        public Waypoint NextWaypoint
         {
-            if (getNextWaypoint)
-            {
-                nextWaypoint.updateWaypoint(removeFromQueue());
-            }
+            get { return nextWaypoint; }
+
+            set { nextWaypoint.updateWaypoint(removeFromQueue()); }
         }
 
         public float AbsoluteX

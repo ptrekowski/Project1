@@ -126,8 +126,8 @@ namespace Penguin2
         {
             firstPlayer.updatePosition();
 
-            listBoxWaypoints.Items.Add("Starting character at " + firstPlayer + ".");
-            listBoxWaypoints.Items.Add("Projected stop at " + next.ToString() + ".");
+            listBoxWaypoints.Items.Add("Starting character at " + firstPlayer.CurrWaypoint.ToString() + ".");
+            listBoxWaypoints.Items.Add("Projected stop at " + firstPlayer.NextWaypoint.ToString() + ".");
             movingForward = true;
 
             while (movingForward)
@@ -138,13 +138,12 @@ namespace Penguin2
                 firstPlayer.updatePosition();
 
                 movingForward = true;
-                now = DateTime.Now;
 
                 // If destination time > start time
-                if (now >= next)
+                if (firstPlayer.calcDistToPoint() < accuracyEpsilon )
                 {
                     playerActions.stopMoveForward();
-                    listBoxWaypoints.Items.Add("Stopping character at" + now.ToString() + ".");
+                    listBoxWaypoints.Items.Add("Stopping character at" + firstPlayer.CurrWaypoint.ToString() + ".");
                     System.Threading.Thread.Sleep(50);
                     firstPlayer.updatePosition();
                     movingForward = false;
