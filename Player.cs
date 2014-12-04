@@ -59,7 +59,7 @@ namespace Penguin2
             {
                 this.NextWaypoint = NextWaypoint;
                 // turn off this flag to avoid losing Waypoints
-                getNextWaypoint = false;
+                //getNextWaypoint = false;
             }
         }
 

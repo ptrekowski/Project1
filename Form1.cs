@@ -33,7 +33,7 @@ namespace Penguin2
 
         // Loop Variables //////////
         // /////////////////////////
-        int accuracyEpsilon = 5; // Set this for deviation from actual target
+        int accuracyEpsilon = 50; // Set this for deviation from actual target
 
         public struct MemoryAddresses
         {
@@ -112,6 +112,7 @@ namespace Penguin2
             lblY.Text = firstPlayer.AbsoluteY.ToString();
             lblZ.Text = firstPlayer.AbsoluteZ.ToString();
             lblFacing.Text = (firstPlayer.AbsoluteFacing / intToDegrees + " degrees").ToString();
+            lblFaceDir.Text = firstPlayer.calculateDestinationDirection().ToString();
 
         }
 
@@ -123,6 +124,7 @@ namespace Penguin2
         private void button1_Click(object sender, EventArgs e)
         {
             firstPlayer.updatePosition();
+            firstPlayer.updateNextWaypoint();
 
             listBoxWaypoints.Items.Add("Starting character at " + firstPlayer.CurrWaypoint.ToString() + ".");
             listBoxWaypoints.Items.Add("Projected stop at " + firstPlayer.NextWaypoint.ToString() + ".");
@@ -136,6 +138,7 @@ namespace Penguin2
                 // load current
                 // load next
                 firstPlayer.updatePosition();
+                
 
                 windowHandle.setGameToFocusWindow();
                 System.Threading.Thread.Sleep(50);
@@ -152,10 +155,15 @@ namespace Penguin2
                     System.Threading.Thread.Sleep(50);
                     firstPlayer.updatePosition();
                     movingForward = false;
+                    //firstPlayer.updateNextWaypoint();
                 }
 
                 // give process time to other events
                 Application.DoEvents();
+            }
+            if (movingForward)
+            {
+                playerActions.stopMoveForward();
             }
         }
 
@@ -178,6 +186,11 @@ namespace Penguin2
 
             firstPlayer.updateNextWaypoint();
             listBoxWaypoints.Items.Add("next: " + firstPlayer.NextWaypoint.ToString());
+        }
+
+        private void btnFaceTar_Click(object sender, EventArgs e)
+        {
+            
         }
 
     }

@@ -14,17 +14,23 @@ namespace Penguin2
         public PlayerActions()
         {
             input.Load();
-            //input.KeyboardFilterMode = KeyboardFilterMode.All;
+
+            // disable for debugging
+            input.KeyboardFilterMode = KeyboardFilterMode.All;
         }
 
         public void startMoveForward()
         {
+            //input.KeyboardFilterMode = KeyboardFilterMode.All;
             input.SendKey(Interceptor.Keys.A, KeyState.Down);
+            //input.KeyboardFilterMode = KeyboardFilterMode.None;
         }
 
         public void stopMoveForward()
         {
+            //input.KeyboardFilterMode = KeyboardFilterMode.All;
             input.SendKey(Interceptor.Keys.A, KeyState.Up);
+            //input.KeyboardFilterMode = KeyboardFilterMode.None;
         }
 
         public void turnLeft()

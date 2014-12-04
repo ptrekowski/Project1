@@ -42,6 +42,8 @@
             this.lblDestDelta = new System.Windows.Forms.Label();
             this.button2 = new System.Windows.Forms.Button();
             this.btnWpShow = new System.Windows.Forms.Button();
+            this.btnFaceTar = new System.Windows.Forms.Button();
+            this.lblFaceDir = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // btnAddWaypoint
@@ -161,11 +163,32 @@
             this.btnWpShow.UseVisualStyleBackColor = true;
             this.btnWpShow.Click += new System.EventHandler(this.btnWpShow_Click);
             // 
+            // btnFaceTar
+            // 
+            this.btnFaceTar.Location = new System.Drawing.Point(4, 337);
+            this.btnFaceTar.Name = "btnFaceTar";
+            this.btnFaceTar.Size = new System.Drawing.Size(75, 23);
+            this.btnFaceTar.TabIndex = 13;
+            this.btnFaceTar.Text = "Face Tar";
+            this.btnFaceTar.UseVisualStyleBackColor = true;
+            this.btnFaceTar.Click += new System.EventHandler(this.btnFaceTar_Click);
+            // 
+            // lblFaceDir
+            // 
+            this.lblFaceDir.AutoSize = true;
+            this.lblFaceDir.Location = new System.Drawing.Point(18, 370);
+            this.lblFaceDir.Name = "lblFaceDir";
+            this.lblFaceDir.Size = new System.Drawing.Size(35, 13);
+            this.lblFaceDir.TabIndex = 14;
+            this.lblFaceDir.Text = "label2";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(526, 389);
+            this.Controls.Add(this.lblFaceDir);
+            this.Controls.Add(this.btnFaceTar);
             this.Controls.Add(this.btnWpShow);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.lblDestDelta);
@@ -201,6 +224,8 @@
         private System.Windows.Forms.Label lblDestDelta;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button btnWpShow;
+        private System.Windows.Forms.Button btnFaceTar;
+        private System.Windows.Forms.Label lblFaceDir;
 
     }
 }
