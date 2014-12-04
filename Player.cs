@@ -71,7 +71,7 @@ namespace Penguin2
         }
 
         // ** Finish by adding z-index to calculation
-        public int calculateDestinationDirection() // Point startPoint, Point endPoint 
+        public int calculateDestinationDirection()
         {
             double degrees;
             double deltaX;
