@@ -13,6 +13,8 @@ namespace Penguin2
         private float absoluteY = 0.0f;
         private float absoluteZ = 0.0f;
         private int currentFacing;
+        private int health;
+        private int level;
 
         public struct MemoryAddresses
         {
@@ -31,8 +33,6 @@ namespace Penguin2
             currentFacing = 0;
 
             ReadMemory.OpenProcess(gameProcessName, index);
-
-            
         }
 
         public void updatePosition()

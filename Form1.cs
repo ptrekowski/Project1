@@ -124,8 +124,35 @@ namespace Penguin2
 
         private void button1_Click(object sender, EventArgs e)
         {
-            windowHandle.setGameToFocusWindow();
-            playerActions.startMoveForward();
+            firstPlayer.updatePosition();
+
+            listBoxWaypoints.Items.Add("Starting character at " + firstPlayer + ".");
+            listBoxWaypoints.Items.Add("Projected stop at " + next.ToString() + ".");
+            movingForward = true;
+
+            while (movingForward)
+            {
+                windowHandle.setGameToFocusWindow();
+                System.Threading.Thread.Sleep(50);
+                playerActions.startMoveForward();
+                firstPlayer.updatePosition();
+
+                movingForward = true;
+                now = DateTime.Now;
+
+                // If destination time > start time
+                if (now >= next)
+                {
+                    playerActions.stopMoveForward();
+                    listBoxWaypoints.Items.Add("Stopping character at" + now.ToString() + ".");
+                    System.Threading.Thread.Sleep(50);
+                    firstPlayer.updatePosition();
+                    movingForward = false;
+                }
+
+                // give process time to other events
+                Application.DoEvents();
+            }
         }
 
     }

@@ -19,7 +19,10 @@ namespace Penguin2
         private float distanceToWaypoint;
 
         private Queue<Waypoint> playerOneQueue = new Queue<Waypoint>();
-        private Waypoint currPosition = null;
+        private Waypoint currWaypoint = null;
+        private Waypoint nextWaypoint = null;
+
+        private bool getNextWaypoint = false;
 
         public struct MemoryAddresses
         {
@@ -36,7 +39,7 @@ namespace Penguin2
             absoluteY = 0.0f;
             absoluteZ = 0.0f;
             playerFacing = 0;
-            currPosition.updateWayPoint(absoluteX, absoluteY, absoluteZ, playerFacing);
+            currWaypoint.updateWaypoint(absoluteX, absoluteY, absoluteZ, playerFacing);
             ReadMemory.OpenProcess(gameProcessName, index);
         }
 
@@ -46,11 +49,12 @@ namespace Penguin2
             absoluteY = ReadMemory.readFloat(MemoryAddresses.absoluteYAddress);
             absoluteZ = ReadMemory.readFloat(MemoryAddresses.absoluteZAddress);
             playerFacing = ReadMemory.readInt(MemoryAddresses.mobFacingAddress);
-            currPosition.updateWayPoint(absoluteX, absoluteY, absoluteZ, playerFacing);
+            currWaypoint.updateWaypoint(absoluteX, absoluteY, absoluteZ, playerFacing);
         }
 
         public float calcDistToPoint()
         {
+            // distance to next point is currPosition - 
             float distanceToNextPoint;
             distanceToNextPoint = (float)Math.Sqrt(Math.Abs(((double)Waypoint.nextX - (double)absoluteX) + ((double)Waypoint.nextY - (double)absoluteY)));
             return distanceToNextPoint;
@@ -156,6 +160,21 @@ namespace Penguin2
         public Object removeFromQueue()
         {
             return playerOneQueue.Dequeue();
+        }
+
+        public Waypoint CurrWaypoint
+        {
+            get { return this.currWaypoint; }
+        }
+
+        public void setNextWaypoint()
+        {
+            if (getNextWaypoint)
+            {
+                
+                Waypoint w = new Waypoint();
+                nextWaypoint = (Waypoint)removeFromQueue();
+            }
         }
 
         public float AbsoluteX
