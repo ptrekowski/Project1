@@ -20,17 +20,27 @@ namespace Penguin2
 
         public WinHandleMethods(String gameWindowName, int processNumber)
         {
-            this.gameWindowName = gameWindowName;
-            this.processNumber = processNumber;
+
+                this.gameWindowName = gameWindowName;
+                this.processNumber = processNumber;
+
         }
 
         public IntPtr getGameWindowHandle(int processNumber)
         {
-            Process[] processes = Process.GetProcessesByName(gameWindowName);
+            try
+            {
+                Process[] processes = Process.GetProcessesByName(gameWindowName);
 
-            pFoundWindow = processes[processNumber].MainWindowHandle;
+                pFoundWindow = processes[processNumber].MainWindowHandle;
 
-            return pFoundWindow;
+                return pFoundWindow;
+            }
+            catch (System.IndexOutOfRangeException e)
+            {
+                throw new IndexOutOfRangeException("No winHnd Found", e);
+            }
+
         }
         public void setGameToFocusWindow()
         {

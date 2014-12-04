@@ -12,6 +12,14 @@ namespace Penguin2
         private float z;
         private int facing;
 
+        public Waypoint()
+        {
+            this.x = 0.0f;
+            this.y = 0.0f;
+            this.z = 0.0f;
+            this.facing = 0;
+        }
+
         public Waypoint(Waypoint w)
         {
             this.x = w.x;

@@ -19,8 +19,9 @@ namespace Penguin2
     {
         public static float intToDegrees = 11.3778f;
 
-        private bool stopPathingLoop = false;
+        //private bool stopPathingLoop = false;
         private bool movingForward = false;
+        private bool keepGoing = true;
 
         PlayerActions playerActions = new PlayerActions();
         WinHandleMethods windowHandle;
@@ -32,10 +33,7 @@ namespace Penguin2
 
         // Loop Variables //////////
         // /////////////////////////
-        bool movingLoop = true;
-        bool notThere = true;
-
-        int accuracyEpsilon = 5; // Set this for accuracy to target
+        int accuracyEpsilon = 5; // Set this for deviation from actual target
 
         public struct MemoryAddresses
         {
@@ -130,17 +128,21 @@ namespace Penguin2
             listBoxWaypoints.Items.Add("Projected stop at " + firstPlayer.NextWaypoint.ToString() + ".");
             movingForward = true;
 
-            while (movingForward)
+            while (keepGoing)
             {
+                // load current
+                // load next
+                firstPlayer.updatePosition();
+
                 windowHandle.setGameToFocusWindow();
                 System.Threading.Thread.Sleep(50);
                 playerActions.startMoveForward();
                 firstPlayer.updatePosition();
 
-                movingForward = true;
+                lblDestDelta.Text = firstPlayer.calcDistToPoint().ToString();
 
                 // If destination time > start time
-                if (firstPlayer.calcDistToPoint() < accuracyEpsilon )
+                if (firstPlayer.calcDistToPoint() < accuracyEpsilon)
                 {
                     playerActions.stopMoveForward();
                     listBoxWaypoints.Items.Add("Stopping character at" + firstPlayer.CurrWaypoint.ToString() + ".");
@@ -151,6 +153,20 @@ namespace Penguin2
 
                 // give process time to other events
                 Application.DoEvents();
+            }
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            keepGoing = false;
+        }
+
+        private void btnWpShow_Click(object sender, EventArgs e)
+        {
+            foreach (Waypoint wp in firstPlayer.playerOneQueue)
+            {
+                listBoxWaypoints.Items.Add(wp.ToString());
+                listBoxWaypoints.Items.Add("next: " + firstPlayer.NextWaypoint.ToString());
             }
         }
 

@@ -38,6 +38,10 @@
             this.lblFacing = new System.Windows.Forms.Label();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.button1 = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
+            this.lblDestDelta = new System.Windows.Forms.Label();
+            this.button2 = new System.Windows.Forms.Button();
+            this.btnWpShow = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btnAddWaypoint
@@ -115,15 +119,57 @@
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
             this.button1.TabIndex = 8;
-            this.button1.Text = "button1";
+            this.button1.Text = "Loop Start";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(10, 304);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(69, 13);
+            this.label1.TabIndex = 9;
+            this.label1.Text = "dist to Target";
+            // 
+            // lblDestDelta
+            // 
+            this.lblDestDelta.AutoSize = true;
+            this.lblDestDelta.Location = new System.Drawing.Point(13, 321);
+            this.lblDestDelta.Name = "lblDestDelta";
+            this.lblDestDelta.Size = new System.Drawing.Size(35, 13);
+            this.lblDestDelta.TabIndex = 10;
+            this.lblDestDelta.Text = "label2";
+            // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(12, 146);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(75, 23);
+            this.button2.TabIndex = 11;
+            this.button2.Text = "Loop Stop";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
+            // btnWpShow
+            // 
+            this.btnWpShow.Location = new System.Drawing.Point(12, 193);
+            this.btnWpShow.Name = "btnWpShow";
+            this.btnWpShow.Size = new System.Drawing.Size(75, 23);
+            this.btnWpShow.TabIndex = 12;
+            this.btnWpShow.Text = "WP show";
+            this.btnWpShow.UseVisualStyleBackColor = true;
+            this.btnWpShow.Click += new System.EventHandler(this.btnWpShow_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(526, 389);
+            this.Controls.Add(this.btnWpShow);
+            this.Controls.Add(this.button2);
+            this.Controls.Add(this.lblDestDelta);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.lblFacing);
             this.Controls.Add(this.lblZ);
@@ -151,6 +197,10 @@
         private System.Windows.Forms.Label lblFacing;
         private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label lblDestDelta;
+        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button btnWpShow;
 
     }
 }

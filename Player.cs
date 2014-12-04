@@ -18,9 +18,9 @@ namespace Penguin2
         private int playerFacing;
         private float distanceToWaypoint;
 
-        private Queue<Waypoint> playerOneQueue = new Queue<Waypoint>();
-        private Waypoint currWaypoint = null;
-        private Waypoint nextWaypoint = null;
+        public Queue<Waypoint> playerOneQueue = new Queue<Waypoint>();
+        private Waypoint currWaypoint = new Waypoint();
+        private Waypoint nextWaypoint = new Waypoint();
 
         public bool getNextWaypoint = false;
 
@@ -50,6 +50,13 @@ namespace Penguin2
             absoluteZ = ReadMemory.readFloat(MemoryAddresses.absoluteZAddress);
             playerFacing = ReadMemory.readInt(MemoryAddresses.mobFacingAddress);
             currWaypoint.updateWaypoint(absoluteX, absoluteY, absoluteZ, playerFacing);
+            // update next Waypoint only if we have already reached
+            if (getNextWaypoint)
+            {
+                this.NextWaypoint.updateWaypoint(NextWaypoint);
+                // turn off this flag to avoid losing Waypoints
+                getNextWaypoint = false;
+            }
         }
 
         public float calcDistToPoint()
