@@ -101,6 +101,7 @@ namespace Penguin2
         private void btnAddWaypoint_Click(object sender, EventArgs e)
         {
             firstPlayer.updatePosition();
+            firstPlayer.addToQueue(firstPlayer.AbsoluteX, firstPlayer.AbsoluteY, firstPlayer.AbsoluteZ, firstPlayer.AbsoluteFacing);
             listBoxWaypoints.Items.Add("Player X: " + firstPlayer.AbsoluteX + " Player Y: " + firstPlayer.AbsoluteY + " Player Z " + firstPlayer.AbsoluteZ);
             listBoxWaypoints.Items.Add(firstPlayer.calculateDistanceToNextPoint());
             //listBoxWaypoints.Items.Add(firstPlayer.calculateDestinationDirection());
