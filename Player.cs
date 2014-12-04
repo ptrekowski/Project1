@@ -72,8 +72,8 @@ namespace Penguin2
             //double deltaZ;
             double radians;
 
-            deltaX = absoluteX - Waypoint.nextX;
-            deltaY = absoluteY - Waypoint.nextY;
+            deltaX = absoluteX - NextWaypoint.X;
+            deltaY = absoluteY - NextWaypoint.X;
 
             radians = Math.Atan2(deltaY, deltaX);
             System.Console.WriteLine("radians: " + radians.ToString());
@@ -98,8 +98,8 @@ namespace Penguin2
         public float calculateDirectionToNextPoint()
         {
             float directionInDegrees = 0;
-            float realX = Waypoint.nextX - this.absoluteX;
-            float realY = Waypoint.nextY - this.absoluteY;
+            float realX = NextWaypoint.X - this.absoluteX;
+            float realY = NextWaypoint.Y - this.absoluteY;
 
             if (realX < 0)
             {
@@ -111,22 +111,22 @@ namespace Penguin2
                 realY = realY * -1;
             }
 
-            if ((absoluteX > Waypoint.nextX) && (absoluteY > Waypoint.nextY))
+            if ((absoluteX > NextWaypoint.X) && (absoluteY > NextWaypoint.Y))
             {
                 directionInDegrees = radiansToDegrees(realX, realY);
             }
 
-            if ((absoluteX > Waypoint.nextX) && (absoluteY < Waypoint.nextY))
+            if ((absoluteX > NextWaypoint.X) && (absoluteY < NextWaypoint.Y))
             {
                 directionInDegrees = ((radiansToDegrees(realX, realY) * -1) + 90) + 270;
             }
 
-            if ((absoluteX < Waypoint.nextX) && absoluteY < Waypoint.nextY)
+            if ((absoluteX < NextWaypoint.X) && absoluteY < NextWaypoint.Y)
             {
                 directionInDegrees = radiansToDegrees(realX, realY) + 180;
             }
 
-            if ((absoluteX < Waypoint.nextX) && (absoluteY > Waypoint.nextY))
+            if ((absoluteX < NextWaypoint.X) && (absoluteY > NextWaypoint.Y))
             {
                 directionInDegrees = (((radiansToDegrees(realX, realY)) * -1) + 90) + 90;
             }
