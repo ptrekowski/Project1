@@ -14,7 +14,7 @@ namespace Penguin2
         public PlayerActions()
         {
             input.Load();
-            input.KeyboardFilterMode = KeyboardFilterMode.All;
+            //input.KeyboardFilterMode = KeyboardFilterMode.All;
         }
 
         public void startMoveForward()

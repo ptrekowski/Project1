@@ -107,7 +107,7 @@ namespace Penguin2
         }
 
         private void update() {
-            firstPlayer.updatePosition();
+            //firstPlayer.updatePosition();
             lblX.Text = firstPlayer.AbsoluteX.ToString();
             lblY.Text = firstPlayer.AbsoluteY.ToString();
             lblZ.Text = firstPlayer.AbsoluteZ.ToString();
@@ -128,7 +128,10 @@ namespace Penguin2
             listBoxWaypoints.Items.Add("Projected stop at " + firstPlayer.NextWaypoint.ToString() + ".");
             movingForward = true;
 
-            while (keepGoing)
+            // Safety for testing purposes
+            DateTime stopTime = DateTime.Now.AddMilliseconds(10000);
+
+            while (movingForward && stopTime >= DateTime.Now)
             {
                 // load current
                 // load next
@@ -145,7 +148,7 @@ namespace Penguin2
                 if (firstPlayer.calcDistToPoint() < accuracyEpsilon)
                 {
                     playerActions.stopMoveForward();
-                    listBoxWaypoints.Items.Add("Stopping character at" + firstPlayer.CurrWaypoint.ToString() + ".");
+                    listBoxWaypoints.Items.Add("Stopping character at" + firstPlayer.NextWaypoint.ToString() + ".");
                     System.Threading.Thread.Sleep(50);
                     firstPlayer.updatePosition();
                     movingForward = false;
@@ -159,6 +162,10 @@ namespace Penguin2
         private void button2_Click(object sender, EventArgs e)
         {
             keepGoing = false;
+            foreach (Waypoint w in firstPlayer.playerOneQueue)
+            {
+                listBoxWaypoints.Items.Add(w.ToString());
+            }
         }
 
         private void btnWpShow_Click(object sender, EventArgs e)
@@ -166,8 +173,11 @@ namespace Penguin2
             foreach (Waypoint wp in firstPlayer.playerOneQueue)
             {
                 listBoxWaypoints.Items.Add(wp.ToString());
-                listBoxWaypoints.Items.Add("next: " + firstPlayer.NextWaypoint.ToString());
+                
             }
+
+            firstPlayer.updateNextWaypoint();
+            listBoxWaypoints.Items.Add("next: " + firstPlayer.NextWaypoint.ToString());
         }
 
     }

@@ -22,7 +22,7 @@ namespace Penguin2
         private Waypoint currWaypoint = new Waypoint();
         private Waypoint nextWaypoint = new Waypoint();
 
-        public bool getNextWaypoint = false;
+        public bool getNextWaypoint = true;
 
         public struct MemoryAddresses
         {
@@ -50,10 +50,14 @@ namespace Penguin2
             absoluteZ = ReadMemory.readFloat(MemoryAddresses.absoluteZAddress);
             playerFacing = ReadMemory.readInt(MemoryAddresses.mobFacingAddress);
             currWaypoint.updateWaypoint(absoluteX, absoluteY, absoluteZ, playerFacing);
+        }
+
+        public void updateNextWaypoint()
+        {  
             // update next Waypoint only if we have already reached
             if (getNextWaypoint)
             {
-                this.NextWaypoint.updateWaypoint(NextWaypoint);
+                this.NextWaypoint = NextWaypoint;
                 // turn off this flag to avoid losing Waypoints
                 getNextWaypoint = false;
             }
@@ -61,7 +65,6 @@ namespace Penguin2
 
         public float calcDistToPoint()
         {
-            // distance to next point is currPosition - 
             float distanceToNextPoint;
             float a = Math.Abs(CurrWaypoint.X - NextWaypoint.X);
             float b = Math.Abs(CurrWaypoint.Y - NextWaypoint.Y);
