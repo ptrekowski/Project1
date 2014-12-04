@@ -27,6 +27,16 @@ namespace Penguin2
             input.SendKey(Interceptor.Keys.A, KeyState.Up);
         }
 
+        public void turnLeft()
+        {
+            input.SendKey(Interceptor.Keys.D);
+        }
+
+        public void turnRight()
+        {
+            input.SendKey(Interceptor.Keys.F);
+        }
+
         public void attack1()
         {
             input.SendText("hi");

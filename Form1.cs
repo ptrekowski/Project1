@@ -24,12 +24,11 @@ namespace Penguin2
 
         PlayerActions playerActions = new PlayerActions();
         WinHandleMethods windowHandle;
+        Player firstPlayer;
+        Mob firstMob;
 
         // Game Specific Information
         static string gameProcessName = "game.dll"; // upgrade to process picker
-
-
-
 
         // Loop Variables //////////
         // /////////////////////////
@@ -37,9 +36,6 @@ namespace Penguin2
         bool notThere = true;
 
         int accuracyEpsilon = 5; // Set this for accuracy to target
-
-        Player firstPlayer = new Player(gameProcessName, 0);
-        Mob firstMob = new Mob(gameProcessName, 0);
 
         public struct MemoryAddresses
         {
@@ -54,8 +50,49 @@ namespace Penguin2
         {
             InitializeComponent();
             windowHandle = new WinHandleMethods(gameProcessName, 0);
+            firstPlayer = new Player(gameProcessName, 0);
+            firstMob = new Mob(gameProcessName, 0);
         }
 
+        // Tester
+        private void btnStart_Click(object sender, EventArgs e)
+        {
+            firstPlayer.updatePosition();
+
+            // prime the timeLine
+            DateTime now = DateTime.Now;
+            DateTime next = now.AddMilliseconds(3000);
+
+            listBoxWaypoints.Items.Add("Starting character at " + now.ToString() + ".");
+            listBoxWaypoints.Items.Add("Projected stop at " + next.ToString() + ".");
+            movingForward = true;
+
+            while (movingForward)
+            {
+                windowHandle.setGameToFocusWindow();
+                System.Threading.Thread.Sleep(50);
+                playerActions.startMoveForward();
+                firstPlayer.updatePosition();
+
+                movingForward = true;
+                now = DateTime.Now;
+
+                // If destination time > start time
+                if (now >= next)
+                {
+                    playerActions.stopMoveForward();
+                    listBoxWaypoints.Items.Add("Stopping character at" + now.ToString() + ".");
+                    System.Threading.Thread.Sleep(50);
+                    firstPlayer.updatePosition();
+                    movingForward = false;
+                }
+
+                // give process time to other events
+                Application.DoEvents();
+            }
+
+
+        }
         private void btnFaceDestination_Click(object sender, EventArgs e)
         {
 
@@ -77,47 +114,6 @@ namespace Penguin2
             lblZ.Text = firstPlayer.AbsoluteZ.ToString();
             lblFacing.Text = (firstPlayer.AbsoluteFacing / intToDegrees + " degrees").ToString();
 
-        }
-
-
-        // Tester
-        private void btnStart_Click(object sender, EventArgs e)
-        {
-            firstPlayer.updatePosition();
-
-            // prime the timeLine
-            DateTime now = DateTime.Now;
-            DateTime next = now.AddMilliseconds(3000);
-
-            listBoxWaypoints.Items.Add("Starting character at " + now.ToString() + ".");
-            listBoxWaypoints.Items.Add("Projected stop at " + next.ToString() + ".");
-            while (true)
-            {
-                windowHandle.setGameToFocusWindow();
-                System.Threading.Thread.Sleep(50);
-                playerActions.startMoveForward();
-                firstPlayer.updatePosition();
-
-                movingForward = true;
-                now = DateTime.Now;
-
-                // If destination time > start time
-                if (now >= next)
-                {
-                    playerActions.stopMoveForward();
-                    listBoxWaypoints.Items.Add("Stopping character at" + now.ToString() + ".");
-                    System.Threading.Thread.Sleep(50);
-                    firstPlayer.updatePosition();
-                    movingForward = false;
-                    break;
-                   
-                }
-                
-                // give process time to other events
-                Application.DoEvents();
-            }
-
-            
         }
 
         private void timer1_Tick(object sender, EventArgs e)
