@@ -74,6 +74,7 @@ namespace Penguin2
         }
 
 
+
         // ** UpdateNextWaypoint MUST be called before this **
         public float calcNextWpDir()
         {
@@ -91,8 +92,6 @@ namespace Penguin2
             float dir = 0;
             float deltaX = (nextWaypoint.X - currWaypoint.X);
             float deltaY = (nextWaypoint.Y - currWaypoint.Y);
-            float deltaZ = (nextWaypoint.Z - currWaypoint.Z);
-            float cutoff = 2048.0f;
             double radians = 0;
 
             if (deltaX < 0)
@@ -104,13 +103,14 @@ namespace Penguin2
                     // 2047 > dir > 1024
                     
                     radians = Math.Atan2(Math.Abs(deltaY), Math.Abs(deltaX));
-                    dir = (float)(radians * 2048/Math.PI);
+                    dir = (float)(radians * 2048 / Math.PI) + 1024;
                 }
                 else if (deltaY > 0)
                 {
                     // SW
                     // 1024 > dir >= 0  This is the edge-case, 0 represents the first degree in rotation metric
-                    dir = 500;
+                    radians = Math.Atan2(Math.Abs(deltaX), Math.Abs(deltaY));
+                    dir = (float)(radians * 2048 / Math.PI);
                 }
                 else
                 {
@@ -127,14 +127,16 @@ namespace Penguin2
                 {
                     // NE
                     // 3072 > dir > 2047
-                    dir = 2500;
+                    radians = Math.Atan2(Math.Abs(deltaX), Math.Abs(deltaY));
+                    dir = (float)(radians * 2048 / Math.PI) + 2048;
 
                 }
                 else if (deltaY > 0)
                 {
                     // SE
                     // 4095 >= dir > 3072 This is the opposite edge-case of SW
-                    dir = 3500;
+                    radians = Math.Atan2(Math.Abs(deltaY), Math.Abs(deltaX));
+                    dir = (float)(radians * 2048 / Math.PI) + 3072;
                 }
                 else
                 {
