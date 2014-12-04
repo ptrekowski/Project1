@@ -157,7 +157,7 @@ namespace Penguin2
             playerOneQueue.Enqueue(new Waypoint(x, y, z, facing));
         }
 
-        public Object removeFromQueue()
+        public Waypoint removeFromQueue()
         {
             return playerOneQueue.Dequeue();
         }
@@ -171,9 +171,7 @@ namespace Penguin2
         {
             if (getNextWaypoint)
             {
-                
-                Waypoint w = new Waypoint();
-                nextWaypoint = (Waypoint)removeFromQueue();
+                nextWaypoint.updateWaypoint(removeFromQueue());
             }
         }
 

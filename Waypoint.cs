@@ -63,5 +63,10 @@ namespace Penguin2
         {
             get { return this.facing; }
         }
+
+        public override string ToString()
+        {
+            return (this.x + " " + this.y + " " + this.z + " " + this.facing);
+        }
     }
 }
