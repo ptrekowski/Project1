@@ -8,7 +8,8 @@ using Interceptor;
 namespace Penguin2
 {
 
-    // This class and mob should inherit most methods and properties from a base class
+    // This class and mob should inherit most methods and properties from 
+    // a base class to lessen memory overhead
     class Player
     {
         private float absoluteX;
@@ -18,6 +19,7 @@ namespace Penguin2
         private float distanceToWaypoint;
 
         private Queue<Waypoint> playerOneQueue = new Queue<Waypoint>();
+        private Waypoint currPosition = null;
 
         public struct MemoryAddresses
         {
@@ -34,7 +36,7 @@ namespace Penguin2
             absoluteY = 0.0f;
             absoluteZ = 0.0f;
             playerFacing = 0;
-
+            currPosition.updateWayPoint(absoluteX, absoluteY, absoluteZ, playerFacing);
             ReadMemory.OpenProcess(gameProcessName, index);
         }
 
@@ -44,9 +46,10 @@ namespace Penguin2
             absoluteY = ReadMemory.readFloat(MemoryAddresses.absoluteYAddress);
             absoluteZ = ReadMemory.readFloat(MemoryAddresses.absoluteZAddress);
             playerFacing = ReadMemory.readInt(MemoryAddresses.mobFacingAddress);
+            currPosition.updateWayPoint(absoluteX, absoluteY, absoluteZ, playerFacing);
         }
 
-        public float calculateDistanceToNextPoint()
+        public float calcDistToPoint()
         {
             float distanceToNextPoint;
             distanceToNextPoint = (float)Math.Sqrt(Math.Abs(((double)Waypoint.nextX - (double)absoluteX) + ((double)Waypoint.nextY - (double)absoluteY)));
@@ -140,7 +143,7 @@ namespace Penguin2
         {
             get
             {
-                distanceToWaypoint = calculateDistanceToNextPoint();
+                distanceToWaypoint = calcDistToPoint();
                 return distanceToWaypoint;
             }
         }

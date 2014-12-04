@@ -20,6 +20,14 @@ namespace Penguin2
             this.facing = facing;
         }
 
+        public void updateWayPoint (float x, float y, float z, int facing)
+        {
+            this.x = x;
+            this.y = y;
+            this.z = z;
+            this.facing = facing;
+        }
+
         public float X
         {
             get {return this.x;}
