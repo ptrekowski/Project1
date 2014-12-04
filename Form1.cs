@@ -10,6 +10,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using System.Drawing.Drawing2D;
 using WindowsInput;
+using Interceptor;
 
 
 namespace Penguin2
@@ -17,16 +18,16 @@ namespace Penguin2
     public partial class Form1 : Form
     {
         public static float intToDegrees = 11.3778f;
-        // for interrupt key
-        private KeyHandler ghk;
+
         private bool stopPathingLoop = false;
         private bool movingForward = false;
 
-        // Game Specific Information
+        PlayerActions playerActions = new PlayerActions();
+        WinHandleMethods windowHandle;
 
-        static string gameProcessName = "game.dll";
-        
-        static IntPtr gameWindowHandle; // specific to each individual game window
+        // Game Specific Information
+        static string gameProcessName = "game.dll"; // upgrade to process picker
+
 
 
 
@@ -37,20 +38,23 @@ namespace Penguin2
 
         int accuracyEpsilon = 5; // Set this for accuracy to target
 
-        Player firstPlayer = new Player(gameProcessName, 0); // First Character
-        
+        Player firstPlayer = new Player(gameProcessName, 0);
+        Mob firstMob = new Mob(gameProcessName, 0);
 
-        WinHandleMethods winHndForFirstMob;
+        public struct MemoryAddresses
+        {
+            public static long absoluteXAddress = 0x22d18dc + baseGameAddress;
+            public static long absoluteYAddress = 0x22d18e0 + baseGameAddress;
+            public static long absoluteZAddress = 0x22d18e4 + baseGameAddress;
+            public static long mobFacingAddress = 0x0AAa0a0 + baseGameAddress;
+            public static long baseGameAddress = 0x0400000;
+        }
 
         public Form1()
         {
             InitializeComponent();
-            winHndForFirstMob = new WinHandleMethods(gameProcessName, 0);
-            ghk = new KeyHandler(Keys.NumLock, this);
-            ghk.Register();
+            windowHandle = new WinHandleMethods(gameProcessName, 0);
         }
-
- 
 
         private void btnFaceDestination_Click(object sender, EventArgs e)
         {
@@ -60,25 +64,13 @@ namespace Penguin2
         private void btnAddWaypoint_Click(object sender, EventArgs e)
         {
             firstPlayer.updatePosition();
-            listBoxWaypoints.Items.Add(firstPlayer.AbsoluteX + ", " + firstPlayer.AbsoluteY + ", " + firstPlayer.AbsoluteZ);
+            listBoxWaypoints.Items.Add("Player X: " + firstPlayer.AbsoluteX + " Player Y: " + firstPlayer.AbsoluteY + " Player Z " + firstPlayer.AbsoluteZ);
             listBoxWaypoints.Items.Add(firstPlayer.calculateDistanceToNextPoint());
             //listBoxWaypoints.Items.Add(firstPlayer.calculateDestinationDirection());
             listBoxWaypoints.Items.Add(firstPlayer.AbsoluteFacing / intToDegrees + " degrees");
-
         }
 
-        private void HandleHotkey()
-        {
-                stopPathingLoop = true;
-        }
-
-        protected override void WndProc(ref Message m)
-        {
-            if (m.Msg == Constants.WM_HOTKEY_MSG_ID)
-                HandleHotkey();
-            base.WndProc(ref m);
-        }
-        private void updateUI () {
+        private void update() {
             firstPlayer.updatePosition();
             lblX.Text = firstPlayer.AbsoluteX.ToString();
             lblY.Text = firstPlayer.AbsoluteY.ToString();
@@ -92,46 +84,51 @@ namespace Penguin2
         private void btnStart_Click(object sender, EventArgs e)
         {
             firstPlayer.updatePosition();
-            int thisStepCount = 0;
 
-            // prime the time
+            // prime the timeLine
             DateTime now = DateTime.Now;
-            DateTime next = now.AddMilliseconds(1000);
+            DateTime next = now.AddMilliseconds(3000);
 
-            while ( thisStepCount < 30)
+            listBoxWaypoints.Items.Add("Starting character at " + now.ToString() + ".");
+            listBoxWaypoints.Items.Add("Projected stop at " + next.ToString() + ".");
+            while (true)
             {
-                // fire this event
-                if (now.Millisecond >= next.Millisecond)
+                windowHandle.setGameToFocusWindow();
+                System.Threading.Thread.Sleep(50);
+                playerActions.startMoveForward();
+                firstPlayer.updatePosition();
+
+                movingForward = true;
+                now = DateTime.Now;
+
+                // If destination time > start time
+                if (now >= next)
                 {
-                    winHndForFirstMob.setGameToFocusWindow();
+                    playerActions.stopMoveForward();
+                    listBoxWaypoints.Items.Add("Stopping character at" + now.ToString() + ".");
                     System.Threading.Thread.Sleep(50);
-                    firstPlayer.startMoveForward();
                     firstPlayer.updatePosition();
-                    movingForward = true;
-                    now = DateTime.Now;
-                    next = now.AddMilliseconds(1000);
+                    movingForward = false;
+                    break;
+                   
                 }
-             
                 
-                thisStepCount++;
+                // give process time to other events
                 Application.DoEvents();
             }
-            firstPlayer.stopMoveForward();
-            System.Threading.Thread.Sleep(50);
-            firstPlayer.updatePosition();
-            movingForward = false;
+
+            
         }
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            updateUI();
+            update();
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            winHndForFirstMob.setGameToFocusWindow();
-            System.Threading.Thread.Sleep(100);
-            firstPlayer.attack1();
+            windowHandle.setGameToFocusWindow();
+            playerActions.startMoveForward();
         }
 
     }

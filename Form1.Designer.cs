@@ -55,7 +55,7 @@
             this.listBoxWaypoints.FormattingEnabled = true;
             this.listBoxWaypoints.Location = new System.Drawing.Point(94, 3);
             this.listBoxWaypoints.Name = "listBoxWaypoints";
-            this.listBoxWaypoints.Size = new System.Drawing.Size(279, 381);
+            this.listBoxWaypoints.Size = new System.Drawing.Size(428, 381);
             this.listBoxWaypoints.TabIndex = 1;
             // 
             // btnStart
@@ -123,7 +123,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(373, 389);
+            this.ClientSize = new System.Drawing.Size(526, 389);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.lblFacing);
             this.Controls.Add(this.lblZ);
