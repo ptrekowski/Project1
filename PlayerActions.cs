@@ -35,14 +35,37 @@ namespace Penguin2
 
         public void turnLeft()
         {
-            input.SendKey(Interceptor.Keys.D);
+            input.SendKey(Interceptor.Keys.D, KeyState.Down);
+            System.Threading.Thread.Sleep(50);
+            input.SendKey(Interceptor.Keys.D, KeyState.Up);
         }
 
         public void turnRight()
         {
-            input.SendKey(Interceptor.Keys.F);
+            input.SendKey(Interceptor.Keys.F, KeyState.Down);
+            System.Threading.Thread.Sleep(50);
+            input.SendKey(Interceptor.Keys.F, KeyState.Up);
         }
 
+        public void mouseRightDown()
+        {
+            input.SendMouseEvent(MouseState.RightDown);
+        }
+
+        public void mouseRightUp()
+        {
+            input.SendMouseEvent(MouseState.RightUp);
+        }
+
+        public void tapMouseRight()
+        {
+            input.MoveMouseBy(10, 0, true);
+        }
+
+        public void tapMouseLeft()
+        {
+            input.MoveMouseBy(-10, 0, true);
+        }
         public void attack1()
         {
             input.SendText("hi");

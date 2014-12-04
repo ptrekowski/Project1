@@ -91,10 +91,6 @@ namespace Penguin2
 
 
         }
-        private void btnFaceDestination_Click(object sender, EventArgs e)
-        {
-
-        }
 
         private void btnAddWaypoint_Click(object sender, EventArgs e)
         {
@@ -131,7 +127,8 @@ namespace Penguin2
             movingForward = true;
 
             // Safety for testing purposes
-            DateTime stopTime = DateTime.Now.AddMilliseconds(10000);
+            DateTime stopTime = DateTime.Now.AddMilliseconds(30000);
+            //playerActions.mouseRightDown();
 
             while (movingForward && stopTime >= DateTime.Now)
             {
@@ -144,6 +141,23 @@ namespace Penguin2
                 System.Threading.Thread.Sleep(50);
                 playerActions.startMoveForward();
                 firstPlayer.updatePosition();
+                float wpDir = firstPlayer.calcNextWpDir();
+                float currDir = firstPlayer.CurrWaypoint.Facing;
+                float facingDelta = Math.Abs(wpDir - currDir);
+                if ((wpDir < currDir) && facingDelta > 10)
+                {
+                    windowHandle.setGameToFocusWindow();
+                    //playerActions.tapMouseLeft();
+                    playerActions.turnLeft();
+                    firstPlayer.updatePosition();
+                }
+                else if (wpDir > currDir && facingDelta > 10)
+                {
+                    windowHandle.setGameToFocusWindow();
+                    //playerActions.tapMouseRight();
+                    playerActions.turnRight();
+                    firstPlayer.updatePosition();
+                }
 
                 lblDestDelta.Text = firstPlayer.calcDistToPoint().ToString();
 
@@ -155,7 +169,7 @@ namespace Penguin2
                     System.Threading.Thread.Sleep(50);
                     firstPlayer.updatePosition();
                     movingForward = false;
-                    //firstPlayer.updateNextWaypoint();
+                    //playerActions.mouseRightUp();
                 }
 
                 // give process time to other events
@@ -164,6 +178,7 @@ namespace Penguin2
             if (movingForward)
             {
                 playerActions.stopMoveForward();
+                //playerActions.mouseRightUp();
             }
         }
 
@@ -193,6 +208,7 @@ namespace Penguin2
             
             listBoxWaypoints.Items.Add( firstPlayer.calcNextWpDir());
             lblFaceDir.Text = firstPlayer.calcNextWpDir().ToString();
+            
         }
 
         private void btnUpdateWP_Click(object sender, EventArgs e)

@@ -73,9 +73,23 @@ namespace Penguin2
             return distanceToNextPoint;
         }
 
-
-
         // ** UpdateNextWaypoint MUST be called before this **
+        /*  Atan2 = 
+         *              |
+         *              |
+         *    y/x       |   x/y
+         *   + 1024     |   + 2048
+         * -------------+-----------------
+         *    x/y       |   y/x
+         *   + 0        |   + 3072
+         *              |
+         *              |
+         * 
+         * Rotation goes clock-wise 
+         * South is 0/4095
+         * North is 2048
+         * 
+         * */
         public float calcNextWpDir()
         {
             // destination - current
@@ -161,57 +175,6 @@ namespace Penguin2
             }
 
             return dir;
-        }
-
-        public float calculateDirectionToNextPoint()
-        {
-            float directionInDegrees = 0;
-            float realX = NextWaypoint.X - this.absoluteX;
-            float realY = NextWaypoint.Y - this.absoluteY;
-
-            if (realX < 0)
-            {
-                realX = realX * -1;
-            }
-
-            if (realY < 0)
-            {
-                realY = realY * -1;
-            }
-
-            if ((absoluteX > NextWaypoint.X) && (absoluteY > NextWaypoint.Y))
-            {
-                directionInDegrees = radiansToDegrees(realX, realY);
-            }
-
-            if ((absoluteX > NextWaypoint.X) && (absoluteY < NextWaypoint.Y))
-            {
-                directionInDegrees = ((radiansToDegrees(realX, realY) * -1) + 90) + 270;
-            }
-
-            if ((absoluteX < NextWaypoint.X) && absoluteY < NextWaypoint.Y)
-            {
-                directionInDegrees = radiansToDegrees(realX, realY) + 180;
-            }
-
-            if ((absoluteX < NextWaypoint.X) && (absoluteY > NextWaypoint.Y))
-            {
-                directionInDegrees = (((radiansToDegrees(realX, realY)) * -1) + 90) + 90;
-            }
-
-            // use to convert into a radian value
-            //float rotateToThisDirection = (float)((2 * Math.PI) / 360) * directionInDegrees;
-            float rotateToThisDirection = directionInDegrees;
-
-            return rotateToThisDirection;
-        }
-
-        public float radiansToDegrees(float realX, float realY)
-        {
-            float degrees;
-            degrees = (float)(Math.Atan2(realY, realX));
-
-            return degrees;
         }
 
         public float DistanceToWaypoint
