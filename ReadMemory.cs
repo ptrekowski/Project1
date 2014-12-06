@@ -338,21 +338,20 @@ namespace Penguin2
             return bytesWritten;
         }
 
-        public static byte[] ConvertHexToBytes(string input)
+        public static void WriteFloat(long Address, float value)
         {
-            var result = new byte[(input.Length + 1) / 2];
-            var offset = 0;
-            if (input.Length % 2 == 1)
-            {
-                // If length of input is odd, the first character has an implicit 0 prepended.
-                result[0] = (byte)Convert.ToUInt32(input[0] + "", 16);
-                offset = 1;
-            }
-            for (int i = 0; i < input.Length / 2; i++)
-            {
-                result[i + offset] = (byte)Convert.ToUInt32(input.Substring(i * 2 + offset, 2), 16);
-            }
-            return result;
+            byte[] buffer = BitConverter.GetBytes(value);
+            WriteProcessMemory(pHandle, (UIntPtr)Address, buffer, (UIntPtr)buffer.Length, IntPtr.Zero);
+        }
+        public static void WriteInt(long Address, int value)
+        {
+            byte[] buffer = BitConverter.GetBytes(value);
+            WriteProcessMemory(pHandle, (UIntPtr)Address, buffer, (UIntPtr)buffer.Length, IntPtr.Zero);
+        }
+        public static void WriteUInt(long Address, uint value)
+        {
+            byte[] buffer = BitConverter.GetBytes(value);
+            WriteProcessMemory(pHandle, (UIntPtr)Address, buffer, (UIntPtr)buffer.Length, IntPtr.Zero);
         }
     }
 }

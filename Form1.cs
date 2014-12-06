@@ -100,6 +100,7 @@ namespace Penguin2
             listBoxWaypoints.Items.Add(firstPlayer.calcDistToPoint());
             //listBoxWaypoints.Items.Add(firstPlayer.calculateDestinationDirection());
             listBoxWaypoints.Items.Add(firstPlayer.AbsoluteFacing / intToDegrees + " degrees");
+            windowHandle.setGameToFocusWindow();
         }
 
         private void update() {
@@ -119,6 +120,8 @@ namespace Penguin2
 
         private void button1_Click(object sender, EventArgs e)
         {
+            long add = 0xa270040;
+            bool face = true;
             firstPlayer.updatePosition();
             firstPlayer.updateNextWaypoint();
 
@@ -127,7 +130,7 @@ namespace Penguin2
             movingForward = true;
 
             // Safety for testing purposes
-            DateTime stopTime = DateTime.Now.AddMilliseconds(30000);
+            DateTime stopTime = DateTime.Now.AddMilliseconds(10000);
             //playerActions.mouseRightDown();
 
             while (movingForward && stopTime >= DateTime.Now)
@@ -135,29 +138,26 @@ namespace Penguin2
                 // load current
                 // load next
                 firstPlayer.updatePosition();
-                
+                float wpDir = firstPlayer.calcNextWpDir();
+                int intWpDir = (int)Math.Floor(wpDir);
+                float currDir = firstPlayer.CurrWaypoint.Facing;
+                int intCurrDir = (int)Math.Ceiling(currDir);
+                if (currDir != wpDir && face)
+                {
+                    ReadMemory.WriteInt(add, intWpDir);
+                    listBoxWaypoints.Items.Add((intWpDir).ToString());
+                    listBoxWaypoints.Items.Add("Writing to memory");
+                    listBoxWaypoints.Items.Add("Curr: " + currDir.ToString());
+                    listBoxWaypoints.Items.Add("Dest: " + wpDir.ToString());
+                    face = false;
+                    System.Threading.Thread.Sleep(0);
+                }
 
                 windowHandle.setGameToFocusWindow();
                 System.Threading.Thread.Sleep(50);
                 playerActions.startMoveForward();
                 firstPlayer.updatePosition();
-                float wpDir = firstPlayer.calcNextWpDir();
-                float currDir = firstPlayer.CurrWaypoint.Facing;
-                float facingDelta = Math.Abs(wpDir - currDir);
-                if ((wpDir < currDir) && facingDelta > 10)
-                {
-                    windowHandle.setGameToFocusWindow();
-                    //playerActions.tapMouseLeft();
-                    playerActions.turnLeft();
-                    firstPlayer.updatePosition();
-                }
-                else if (wpDir > currDir && facingDelta > 10)
-                {
-                    windowHandle.setGameToFocusWindow();
-                    //playerActions.tapMouseRight();
-                    playerActions.turnRight();
-                    firstPlayer.updatePosition();
-                }
+                
 
                 lblDestDelta.Text = firstPlayer.calcDistToPoint().ToString();
 
@@ -167,8 +167,21 @@ namespace Penguin2
                     playerActions.stopMoveForward();
                     listBoxWaypoints.Items.Add("Stopping character at" + firstPlayer.NextWaypoint.ToString() + ".");
                     System.Threading.Thread.Sleep(50);
-                    firstPlayer.updatePosition();
-                    movingForward = false;
+                    face = true;
+                   
+                    if (firstPlayer.PeekNextWaypoint() == null)
+                    {
+                        movingForward = false;
+                    }
+                    else
+                    {
+                        firstPlayer.updateNextWaypoint();
+                        listBoxWaypoints.Items.Add("Starting character at " + firstPlayer.CurrWaypoint.ToString() + ".");
+                        listBoxWaypoints.Items.Add("Projected stop at " + firstPlayer.NextWaypoint.ToString() + ".");
+                        stopTime = DateTime.Now.AddMilliseconds(10000);
+                    }
+                    
+                    
                     //playerActions.mouseRightUp();
                 }
 
@@ -219,14 +232,43 @@ namespace Penguin2
         private void button3_Click(object sender, EventArgs e)
         {
             // face dir that is in textbox
-            int data = Int32.Parse(txtboxData.Text);
-            //listBoxWaypoints.Items.Add(data);
+            if (txtboxData.Text == "")
+            {
+                listBoxWaypoints.Items.Add("Enter a value!");
+                return;
+            }
 
+            int data = Int32.Parse(txtboxData.Text);
+
+            if (data < 0 || data > 4095)
+            {
+                listBoxWaypoints.Items.Add("Enter a valid value such that 0 < value < 4095");
+                return;
+            }
+
+            String hexData = data.ToString("X");
             // convert to a byte array
             
-            listBoxWaypoints.Items.Add(data.ToString("X"));
+            //listBoxWaypoints.Items.Add(data.ToString("X"));
+            
         }
 
     }
 }
-                                                                                                
+      
+    // old turning method
+   //float facingDelta = Math.Abs(wpDir - currDir);
+   //             if ((wpDir < currDir) && facingDelta > 10)
+   //             {
+   //                 windowHandle.setGameToFocusWindow();
+   //                 //playerActions.tapMouseLeft();
+   //                 playerActions.turnLeft();
+   //                 firstPlayer.updatePosition();
+   //             }
+   //             else if (wpDir > currDir && facingDelta > 10)
+   //             {
+   //                 windowHandle.setGameToFocusWindow();
+   //                 //playerActions.tapMouseRight();
+   //                 playerActions.turnRight();
+   //                 firstPlayer.updatePosition();
+   //             }                                                                                          

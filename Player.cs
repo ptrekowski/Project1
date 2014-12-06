@@ -201,6 +201,19 @@ namespace Penguin2
             get { return this.currWaypoint; }
         }
 
+        public Waypoint PeekNextWaypoint()
+        {
+            try
+            {
+                return playerOneQueue.Peek();
+            }
+            catch
+            {
+                return null;
+            }
+
+        }
+
         public Waypoint NextWaypoint
         {
             get { return nextWaypoint; }
