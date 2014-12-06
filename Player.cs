@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Collections;
 using Interceptor;
+using System.IO;
 
 namespace Penguin2
 {
@@ -194,6 +195,11 @@ namespace Penguin2
         public Waypoint removeFromQueue()
         {
             return playerOneQueue.Dequeue();
+        }
+
+        public void loadWaypointQueue(Queue wpQueue)
+        {
+            
         }
 
         public Waypoint CurrWaypoint

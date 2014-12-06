@@ -131,12 +131,9 @@ namespace Penguin2
 
             // Safety for testing purposes
             DateTime stopTime = DateTime.Now.AddMilliseconds(10000);
-            //playerActions.mouseRightDown();
 
             while (movingForward && stopTime >= DateTime.Now)
             {
-                // load current
-                // load next
                 firstPlayer.updatePosition();
                 float wpDir = firstPlayer.calcNextWpDir();
                 int intWpDir = (int)Math.Floor(wpDir);
@@ -180,9 +177,6 @@ namespace Penguin2
                         listBoxWaypoints.Items.Add("Projected stop at " + firstPlayer.NextWaypoint.ToString() + ".");
                         stopTime = DateTime.Now.AddMilliseconds(10000);
                     }
-                    
-                    
-                    //playerActions.mouseRightUp();
                 }
 
                 // give process time to other events
@@ -191,29 +185,17 @@ namespace Penguin2
             if (movingForward)
             {
                 playerActions.stopMoveForward();
-                //playerActions.mouseRightUp();
             }
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-            keepGoing = false;
-            foreach (Waypoint w in firstPlayer.playerOneQueue)
-            {
-                listBoxWaypoints.Items.Add(w.ToString());
-            }
+
         }
 
         private void btnWpShow_Click(object sender, EventArgs e)
         {
-            foreach (Waypoint wp in firstPlayer.playerOneQueue)
-            {
-                listBoxWaypoints.Items.Add(wp.ToString());
-                
-            }
 
-            firstPlayer.updateNextWaypoint();
-            listBoxWaypoints.Items.Add("next: " + firstPlayer.NextWaypoint.ToString());
         }
 
         private void btnFaceTar_Click(object sender, EventArgs e)
@@ -226,49 +208,14 @@ namespace Penguin2
 
         private void btnUpdateWP_Click(object sender, EventArgs e)
         {
-            firstPlayer.updateNextWaypoint();
+            
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
-            // face dir that is in textbox
-            if (txtboxData.Text == "")
-            {
-                listBoxWaypoints.Items.Add("Enter a value!");
-                return;
-            }
-
-            int data = Int32.Parse(txtboxData.Text);
-
-            if (data < 0 || data > 4095)
-            {
-                listBoxWaypoints.Items.Add("Enter a valid value such that 0 < value < 4095");
-                return;
-            }
-
-            String hexData = data.ToString("X");
-            // convert to a byte array
-            
-            //listBoxWaypoints.Items.Add(data.ToString("X"));
             
         }
 
     }
 }
-      
-    // old turning method
-   //float facingDelta = Math.Abs(wpDir - currDir);
-   //             if ((wpDir < currDir) && facingDelta > 10)
-   //             {
-   //                 windowHandle.setGameToFocusWindow();
-   //                 //playerActions.tapMouseLeft();
-   //                 playerActions.turnLeft();
-   //                 firstPlayer.updatePosition();
-   //             }
-   //             else if (wpDir > currDir && facingDelta > 10)
-   //             {
-   //                 windowHandle.setGameToFocusWindow();
-   //                 //playerActions.tapMouseRight();
-   //                 playerActions.turnRight();
-   //                 firstPlayer.updatePosition();
-   //             }                                                                                          
+                                                                                        
