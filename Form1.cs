@@ -216,6 +216,17 @@ namespace Penguin2
             firstPlayer.updateNextWaypoint();
         }
 
+        private void button3_Click(object sender, EventArgs e)
+        {
+            // face dir that is in textbox
+            int data = Int32.Parse(txtboxData.Text);
+            //listBoxWaypoints.Items.Add(data);
+
+            // convert to a byte array
+            
+            listBoxWaypoints.Items.Add(data.ToString("X"));
+        }
+
     }
 }
                                                                                                 

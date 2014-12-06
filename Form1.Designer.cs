@@ -45,6 +45,8 @@
             this.btnFaceTar = new System.Windows.Forms.Button();
             this.lblFaceDir = new System.Windows.Forms.Label();
             this.btnUpdateWP = new System.Windows.Forms.Button();
+            this.btnFaceThisDir = new System.Windows.Forms.Button();
+            this.txtboxData = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // btnAddWaypoint
@@ -60,9 +62,9 @@
             // listBoxWaypoints
             // 
             this.listBoxWaypoints.FormattingEnabled = true;
-            this.listBoxWaypoints.Location = new System.Drawing.Point(94, 3);
+            this.listBoxWaypoints.Location = new System.Drawing.Point(291, 2);
             this.listBoxWaypoints.Name = "listBoxWaypoints";
-            this.listBoxWaypoints.Size = new System.Drawing.Size(428, 381);
+            this.listBoxWaypoints.Size = new System.Drawing.Size(235, 381);
             this.listBoxWaypoints.TabIndex = 1;
             // 
             // btnStart
@@ -193,11 +195,30 @@
             this.btnUpdateWP.UseVisualStyleBackColor = true;
             this.btnUpdateWP.Click += new System.EventHandler(this.btnUpdateWP_Click);
             // 
+            // btnFaceThisDir
+            // 
+            this.btnFaceThisDir.Location = new System.Drawing.Point(184, 13);
+            this.btnFaceThisDir.Name = "btnFaceThisDir";
+            this.btnFaceThisDir.Size = new System.Drawing.Size(75, 23);
+            this.btnFaceThisDir.TabIndex = 16;
+            this.btnFaceThisDir.Text = "button3";
+            this.btnFaceThisDir.UseVisualStyleBackColor = true;
+            this.btnFaceThisDir.Click += new System.EventHandler(this.button3_Click);
+            // 
+            // txtboxData
+            // 
+            this.txtboxData.Location = new System.Drawing.Point(168, 42);
+            this.txtboxData.Name = "txtboxData";
+            this.txtboxData.Size = new System.Drawing.Size(100, 20);
+            this.txtboxData.TabIndex = 17;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(526, 389);
+            this.Controls.Add(this.txtboxData);
+            this.Controls.Add(this.btnFaceThisDir);
             this.Controls.Add(this.btnUpdateWP);
             this.Controls.Add(this.lblFaceDir);
             this.Controls.Add(this.btnFaceTar);
@@ -239,6 +260,8 @@
         private System.Windows.Forms.Button btnFaceTar;
         private System.Windows.Forms.Label lblFaceDir;
         private System.Windows.Forms.Button btnUpdateWP;
+        private System.Windows.Forms.Button btnFaceThisDir;
+        private System.Windows.Forms.TextBox txtboxData;
 
     }
 }
