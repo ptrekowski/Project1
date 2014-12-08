@@ -47,6 +47,8 @@
             this.btnUpdateWP = new System.Windows.Forms.Button();
             this.btnFaceThisDir = new System.Windows.Forms.Button();
             this.txtboxData = new System.Windows.Forms.TextBox();
+            this.btnSavePath = new System.Windows.Forms.Button();
+            this.btnLoadPath = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btnAddWaypoint
@@ -212,11 +214,33 @@
             this.txtboxData.Size = new System.Drawing.Size(100, 20);
             this.txtboxData.TabIndex = 17;
             // 
+            // btnSavePath
+            // 
+            this.btnSavePath.Location = new System.Drawing.Point(168, 342);
+            this.btnSavePath.Name = "btnSavePath";
+            this.btnSavePath.Size = new System.Drawing.Size(75, 23);
+            this.btnSavePath.TabIndex = 18;
+            this.btnSavePath.Text = "Save Path";
+            this.btnSavePath.UseVisualStyleBackColor = true;
+            this.btnSavePath.Click += new System.EventHandler(this.btnSavePath_Click);
+            // 
+            // btnLoadPath
+            // 
+            this.btnLoadPath.Location = new System.Drawing.Point(168, 311);
+            this.btnLoadPath.Name = "btnLoadPath";
+            this.btnLoadPath.Size = new System.Drawing.Size(75, 23);
+            this.btnLoadPath.TabIndex = 19;
+            this.btnLoadPath.Text = "Load Path";
+            this.btnLoadPath.UseVisualStyleBackColor = true;
+            this.btnLoadPath.Click += new System.EventHandler(this.btnLoadPath_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(526, 389);
+            this.Controls.Add(this.btnLoadPath);
+            this.Controls.Add(this.btnSavePath);
             this.Controls.Add(this.txtboxData);
             this.Controls.Add(this.btnFaceThisDir);
             this.Controls.Add(this.btnUpdateWP);
@@ -262,6 +286,8 @@
         private System.Windows.Forms.Button btnUpdateWP;
         private System.Windows.Forms.Button btnFaceThisDir;
         private System.Windows.Forms.TextBox txtboxData;
+        private System.Windows.Forms.Button btnSavePath;
+        private System.Windows.Forms.Button btnLoadPath;
 
     }
 }

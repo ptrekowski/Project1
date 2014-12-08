@@ -11,13 +11,19 @@ using Microsoft.Xna.Framework;
 using System.Drawing.Drawing2D;
 using WindowsInput;
 using Interceptor;
-
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 
 namespace Penguin2
 {
     public partial class Form1 : Form
     {
-        public static float intToDegrees = 11.3778f;
+        // must hardcode this with a module
+        // written to address for direction (ESI)+ 0x02
+        // long add = 0xa270040; 
+        long add = 0xa0e0040;
+
+        public static String fileName = "C:/PathTester.bin";
 
         //private bool stopPathingLoop = false;
         private bool movingForward = false;
@@ -30,6 +36,8 @@ namespace Penguin2
 
         // Game Specific Information
         static string gameProcessName = "game.dll"; // upgrade to process picker
+
+      
 
         // Loop Variables //////////
         // /////////////////////////
@@ -99,7 +107,7 @@ namespace Penguin2
             listBoxWaypoints.Items.Add("Player X: " + firstPlayer.AbsoluteX + " Player Y: " + firstPlayer.AbsoluteY + " Player Z " + firstPlayer.AbsoluteZ);
             listBoxWaypoints.Items.Add(firstPlayer.calcDistToPoint());
             //listBoxWaypoints.Items.Add(firstPlayer.calculateDestinationDirection());
-            listBoxWaypoints.Items.Add(firstPlayer.AbsoluteFacing / intToDegrees + " degrees");
+            listBoxWaypoints.Items.Add(firstPlayer.AbsoluteFacing);
             windowHandle.setGameToFocusWindow();
         }
 
@@ -120,7 +128,7 @@ namespace Penguin2
 
         private void button1_Click(object sender, EventArgs e)
         {
-            long add = 0xa270040;
+            
             bool face = true;
             firstPlayer.updatePosition();
             firstPlayer.updateNextWaypoint();
@@ -188,6 +196,16 @@ namespace Penguin2
             }
         }
 
+        private void serializeQueueToSave()
+        {
+           
+        }
+
+        private Waypoint deserializeQueueToSave()
+        {
+            return null;
+        }
+
         private void button2_Click(object sender, EventArgs e)
         {
 
@@ -214,6 +232,31 @@ namespace Penguin2
         private void button3_Click(object sender, EventArgs e)
         {
             
+        }
+
+        private void btnSavePath_Click(object sender, EventArgs e)
+        {
+              // to serialize the saved path
+            BinaryFormatter binFormat = new BinaryFormatter();
+            FileStream inOutFile = new FileStream(fileName, FileMode.OpenOrCreate, FileAccess.ReadWrite);
+
+            SaveFileDialog saveFile = new SaveFileDialog();
+            //if (saveFile.ShowDialog() == DialogResult.OK)
+            //{
+
+            //}
+
+                binFormat.Serialize(inOutFile, firstPlayer.returnQueueForSave());
+            
+            inOutFile.Close();
+        }
+
+        private void btnLoadPath_Click(object sender, EventArgs e)
+        {
+            BinaryFormatter binFormat = new BinaryFormatter();
+            FileStream inOutFile = new FileStream(fileName, FileMode.OpenOrCreate, FileAccess.ReadWrite);
+
+            firstPlayer.loadQueueFromSave((Queue<Waypoint>)binFormat.Deserialize(inOutFile));
         }
 
     }

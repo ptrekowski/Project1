@@ -23,6 +23,8 @@ namespace Penguin2
         private Waypoint currWaypoint = new Waypoint();
         private Waypoint nextWaypoint = new Waypoint();
 
+        public Queue<Waypoint> queueToLoad = new Queue<Waypoint>();
+
         public bool getNextWaypoint = true;
 
         public struct MemoryAddresses
@@ -189,7 +191,12 @@ namespace Penguin2
 
         public void addToQueue(float x, float y, float z, int facing)
         {
-            playerOneQueue.Enqueue(new Waypoint(x, y, z, facing));
+            this.playerOneQueue.Enqueue(new Waypoint(x, y, z, facing));
+        }
+
+        public void addToLoadingQueue(Waypoint wp)
+        {
+            this.queueToLoad.Enqueue(wp);
         }
 
         public Waypoint removeFromQueue()
@@ -197,9 +204,14 @@ namespace Penguin2
             return playerOneQueue.Dequeue();
         }
 
-        public void loadWaypointQueue(Queue wpQueue)
+        public Queue<Waypoint> returnQueueForSave()
         {
-            
+            return playerOneQueue;
+        }
+
+        public void loadQueueFromSave(Queue<Waypoint> wpQueue)
+        {
+            this.playerOneQueue = (wpQueue);
         }
 
         public Waypoint CurrWaypoint

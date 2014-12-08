@@ -2,10 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.IO;
 
 namespace Penguin2
 {
-    class Waypoint
+    [Serializable]
+    public class Waypoint
     {
         private float x;
         private float y;
