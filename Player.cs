@@ -20,6 +20,9 @@ namespace Penguin2
         private float distanceToWaypoint;
 
         public Queue<Waypoint> playerOneQueue = new Queue<Waypoint>();
+        public LinkedList<Waypoint> playerOneLList = new LinkedList<Waypoint>();
+
+        private Waypoint prevWaypoint = new Waypoint();
         private Waypoint currWaypoint = new Waypoint();
         private Waypoint nextWaypoint = new Waypoint();
 
@@ -192,11 +195,6 @@ namespace Penguin2
         public void addToQueue(float x, float y, float z, int facing)
         {
             this.playerOneQueue.Enqueue(new Waypoint(x, y, z, facing));
-        }
-
-        public void addToLoadingQueue(Waypoint wp)
-        {
-            this.queueToLoad.Enqueue(wp);
         }
 
         public Waypoint removeFromQueue()
