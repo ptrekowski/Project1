@@ -91,6 +91,10 @@ namespace Penguin2
             input.SendKey(Keys.B);
         }
 
+        public void stickTarget()
+        {
+            input.SendKey(Keys.G);
+        }
 
     }
 }

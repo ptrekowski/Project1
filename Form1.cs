@@ -18,10 +18,11 @@ namespace Penguin2
 {
     public partial class Form1 : Form
     {
+        bool continueRunning = true;
         // must hardcode this with a module
         // written to address for direction (ESI)+ 0x02
         // long add = 0xa270040; 
-        long add = 0xa0e0040;
+        long add = 0xa1d0040;
 
         public static String fileName = "C:/PathTester.bin";
 
@@ -43,7 +44,7 @@ namespace Penguin2
 
         // Loop Variables //////////
         // /////////////////////////
-        int accuracyEpsilon = 50; // Set this for deviation from actual target
+        int accuracyEpsilon = 10; // Set this for deviation from actual target
 
         public struct MemoryAddresses
         {
@@ -124,6 +125,7 @@ namespace Penguin2
             lblTarHealth.Text = firstPlayer.targetHealth.ToString();
             lblTarName.Text = firstPlayer.targetName.ToString();
             
+            
 
         }
 
@@ -151,12 +153,21 @@ namespace Penguin2
 
             while (looping && stopTime >= DateTime.Now)
             {
+                if (!continueRunning)
+                {
+                    break;
+                }
                 bool paused = false;
+                tmrTargetSearch.Enabled = true;
 
                 firstPlayer.updatePosition();
 
                 if(firstPlayer.targetHealth > 0 && firstPlayer.targetHealth <= 100)
                 {
+                    if (!continueRunning)
+                    {
+                        break;
+                    }
                     // pause the loop
                     if (!paused)
                     {
@@ -168,15 +179,31 @@ namespace Penguin2
                     DateTime tarStopTime = DateTime.Now.AddMinutes(1);
                     DateTime nextAttack = DateTime.Now.AddMilliseconds(1500);
                     bool mobPulled = false;
+                    bool coolDownReady = true;
+                    DateTime nextCoolDown = DateTime.Now;
 
                     // attack loop
-                    while (firstPlayer.targetHealth > 0 && DateTime.Now < tarStopTime || firstPlayer.playerHealth < 100)
+                    while ((firstPlayer.targetHealth > 0 && DateTime.Now < tarStopTime) || (firstPlayer.playerHealth < 100 && coolDownReady))
                     {
+                        if (!continueRunning)
+                        {
+                            break;
+                        }
+                        tmrTargetSearch.Enabled = false;
+                        if (DateTime.Now > nextCoolDown)
+                        {
+                            coolDownReady = true;
+                        }
+
                         if (!mobPulled)
                         {
                             playerActions.faceMob();
                             System.Threading.Thread.Sleep(50);
+                            //playerActions.stickTarget();
+                            System.Threading.Thread.Sleep(50);
                             playerActions.pullMob();
+                            coolDownReady = false;
+                            nextCoolDown = DateTime.Now.AddMilliseconds(31000);
                             mobPulled = true;
                         }
                         listBoxWaypoints.Items.Add("Attacking: " + firstPlayer.targetName);
@@ -192,8 +219,12 @@ namespace Penguin2
 
                         Application.DoEvents();
                     }
-                    
-                    
+
+                    if (tmrTargetSearch.Enabled == false)
+                    {
+                        tmrTargetSearch.Enabled = true;
+                    }
+
                     stopTime = DateTime.Now.AddMilliseconds(4000);
                     face = true; // trigger this to reestablish the correct heading
                     paused = false;
@@ -216,7 +247,7 @@ namespace Penguin2
                 }
 
                 windowHandle.setGameToFocusWindow();
-                System.Threading.Thread.Sleep(50);
+                //System.Threading.Thread.Sleep(100);
                 if (!movingForward && !paused)
                 {
                     playerActions.startMoveForward();
@@ -231,7 +262,7 @@ namespace Penguin2
                 {
                     playerActions.stopMoveForward();
                     listBoxWaypoints.Items.Add("Stopping character at" + firstPlayer.NextWaypoint.ToString() + ".");
-                    System.Threading.Thread.Sleep(50);
+                    //System.Threading.Thread.Sleep(100);
                     face = true;
 
                     if (firstPlayer.PeekNextWaypoint() == null)
@@ -250,6 +281,7 @@ namespace Penguin2
                 // give process time to other events
                 Application.DoEvents();
             }
+            tmrTargetSearch.Enabled = false;
             if (looping)
             {
                 playerActions.stopMoveForward();
@@ -316,6 +348,11 @@ namespace Penguin2
             playerActions.findTarget();
         }
 
+        private void Form1_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            continueRunning = false;
+            Application.Exit();
+        }
     }
 }
                                                                                         

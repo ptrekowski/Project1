@@ -67,7 +67,7 @@
             this.listBoxWaypoints.FormattingEnabled = true;
             this.listBoxWaypoints.Location = new System.Drawing.Point(291, 2);
             this.listBoxWaypoints.Name = "listBoxWaypoints";
-            this.listBoxWaypoints.Size = new System.Drawing.Size(379, 381);
+            this.listBoxWaypoints.Size = new System.Drawing.Size(154, 381);
             this.listBoxWaypoints.TabIndex = 1;
             // 
             // btnStart
@@ -259,6 +259,7 @@
             this.Name = "Form1";
             this.Text = "Waypoints";
             this.TopMost = true;
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Form1_FormClosed);
             this.ResumeLayout(false);
             this.PerformLayout();
 

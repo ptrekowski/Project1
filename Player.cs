@@ -42,7 +42,9 @@ namespace Penguin2
         public struct MemoryAddresses
         {
             public static long absoluteXAddress = 0x22d18dc + baseGameAddress;
+            public static long absXOffset = 0x14b4210 + baseGameAddress;
             public static long absoluteYAddress = 0x22d18e0 + baseGameAddress;
+            public static long absYOffset = 0x14b4214 + baseGameAddress;
             public static long absoluteZAddress = 0x22d18e4 + baseGameAddress;
             public static long mobFacingAddress = 0x0AAa0a0 + baseGameAddress;
             public static long targetName = 0x1499620 + baseGameAddress;
@@ -68,7 +70,9 @@ namespace Penguin2
         public void updatePosition()
         {
             absoluteX = ReadMemory.readFloat(MemoryAddresses.absoluteXAddress);
+            absoluteX = absoluteX - ReadMemory.readFloat(MemoryAddresses.absXOffset);
             absoluteY = ReadMemory.readFloat(MemoryAddresses.absoluteYAddress);
+            absoluteY = absoluteY - ReadMemory.readFloat(MemoryAddresses.absYOffset);
             absoluteZ = ReadMemory.readFloat(MemoryAddresses.absoluteZAddress);
             playerFacing = ReadMemory.readInt(MemoryAddresses.mobFacingAddress);
             currWaypoint.updateWaypoint(absoluteX, absoluteY, absoluteZ, playerFacing);
