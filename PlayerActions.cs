@@ -96,5 +96,9 @@ namespace Penguin2
             input.SendKey(Keys.G);
         }
 
+        public void pressEscape()
+        {
+            input.SendKey(Keys.Escape);
+        }
     }
 }

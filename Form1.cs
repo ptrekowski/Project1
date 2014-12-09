@@ -148,7 +148,7 @@ namespace Penguin2
             looping = true;
 
             // Safety for testing purposes
-            DateTime stopTime = DateTime.Now.AddMilliseconds(2000);
+            DateTime stopTime = DateTime.Now.AddMilliseconds(5000);
             
 
             while (looping && stopTime >= DateTime.Now)
@@ -157,6 +157,7 @@ namespace Penguin2
                 {
                     break;
                 }
+
                 bool paused = false;
                 tmrTargetSearch.Enabled = true;
 
@@ -183,7 +184,7 @@ namespace Penguin2
                     DateTime nextCoolDown = DateTime.Now;
 
                     // attack loop
-                    while ((firstPlayer.targetHealth > 0 && DateTime.Now < tarStopTime) || (firstPlayer.playerHealth < 100 && coolDownReady))
+                    while ((firstPlayer.targetHealth > 0 && DateTime.Now < tarStopTime) || (firstPlayer.playerHealth < 100 && !coolDownReady))
                     {
                         if (!continueRunning)
                         {
@@ -193,6 +194,7 @@ namespace Penguin2
                         if (DateTime.Now > nextCoolDown)
                         {
                             coolDownReady = true;
+                            listBoxWaypoints.Items.Add("Cool down Ready!");
                         }
 
                         if (!mobPulled)
@@ -205,12 +207,18 @@ namespace Penguin2
                             coolDownReady = false;
                             nextCoolDown = DateTime.Now.AddMilliseconds(31000);
                             mobPulled = true;
+                            listBoxWaypoints.Items.Add("Attacking: " + firstPlayer.targetName);
                         }
-                        listBoxWaypoints.Items.Add("Attacking: " + firstPlayer.targetName);
+                        
 
                         if (DateTime.Now >= nextAttack && firstPlayer.targetHealth > 0)
                         {
                             // attack
+                            if (firstPlayer.isTargetOutOfRange())
+                            {
+                                playerActions.pressEscape();
+                                break;
+                            }
                             playerActions.attack2();
                             playerActions.attack1();
                             listBoxWaypoints.Items.Add("With: Attack1");

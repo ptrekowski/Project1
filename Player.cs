@@ -54,6 +54,8 @@ namespace Penguin2
             public static long playerEndurance = 0x14991a0 + baseGameAddress;
             public static long playerPower = 0x14991a4 + baseGameAddress;
 
+            public static long CombatLogString = 0x1C9B3BE8 + baseGameAddress;
+
             public static long baseGameAddress = 0x0400000;
         }
 
@@ -97,6 +99,7 @@ namespace Penguin2
             // update next Waypoint only if we have already reached
             if (getNextWaypoint)
             {
+                this.prevWaypoint = PeekNextWaypoint();
                 this.NextWaypoint = NextWaypoint;
                 // turn off this flag to avoid losing Waypoints
                 //getNextWaypoint = false;
@@ -294,5 +297,10 @@ namespace Penguin2
             get { return this.playerFacing; }
         }
 
+        public bool isTargetOutOfRange()
+        {
+            string message = ReadMemory.ReadAsciiString(MemoryAddresses.CombatLogString, 50);
+            return message.Contains("is too far away to attack");
+        }
     }
 }
