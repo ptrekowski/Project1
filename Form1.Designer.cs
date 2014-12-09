@@ -40,15 +40,16 @@
             this.button1 = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.lblDestDelta = new System.Windows.Forms.Label();
-            this.button2 = new System.Windows.Forms.Button();
-            this.btnWpShow = new System.Windows.Forms.Button();
             this.btnFaceTar = new System.Windows.Forms.Button();
             this.lblFaceDir = new System.Windows.Forms.Label();
-            this.btnUpdateWP = new System.Windows.Forms.Button();
-            this.btnFaceThisDir = new System.Windows.Forms.Button();
             this.txtboxData = new System.Windows.Forms.TextBox();
             this.btnSavePath = new System.Windows.Forms.Button();
             this.btnLoadPath = new System.Windows.Forms.Button();
+            this.wpTimer = new System.Windows.Forms.Timer(this.components);
+            this.btnToggleMakeWP = new System.Windows.Forms.Button();
+            this.tmrTargetSearch = new System.Windows.Forms.Timer(this.components);
+            this.lblTarName = new System.Windows.Forms.Label();
+            this.lblTarHealth = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // btnAddWaypoint
@@ -66,7 +67,7 @@
             this.listBoxWaypoints.FormattingEnabled = true;
             this.listBoxWaypoints.Location = new System.Drawing.Point(291, 2);
             this.listBoxWaypoints.Name = "listBoxWaypoints";
-            this.listBoxWaypoints.Size = new System.Drawing.Size(235, 381);
+            this.listBoxWaypoints.Size = new System.Drawing.Size(379, 381);
             this.listBoxWaypoints.TabIndex = 1;
             // 
             // btnStart
@@ -148,26 +149,6 @@
             this.lblDestDelta.TabIndex = 10;
             this.lblDestDelta.Text = "label2";
             // 
-            // button2
-            // 
-            this.button2.Location = new System.Drawing.Point(12, 146);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 23);
-            this.button2.TabIndex = 11;
-            this.button2.Text = "Loop Stop";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
-            // 
-            // btnWpShow
-            // 
-            this.btnWpShow.Location = new System.Drawing.Point(12, 193);
-            this.btnWpShow.Name = "btnWpShow";
-            this.btnWpShow.Size = new System.Drawing.Size(75, 23);
-            this.btnWpShow.TabIndex = 12;
-            this.btnWpShow.Text = "WP show";
-            this.btnWpShow.UseVisualStyleBackColor = true;
-            this.btnWpShow.Click += new System.EventHandler(this.btnWpShow_Click);
-            // 
             // btnFaceTar
             // 
             this.btnFaceTar.Location = new System.Drawing.Point(3, 312);
@@ -186,26 +167,6 @@
             this.lblFaceDir.Size = new System.Drawing.Size(35, 13);
             this.lblFaceDir.TabIndex = 14;
             this.lblFaceDir.Text = "label2";
-            // 
-            // btnUpdateWP
-            // 
-            this.btnUpdateWP.Location = new System.Drawing.Point(3, 342);
-            this.btnUpdateWP.Name = "btnUpdateWP";
-            this.btnUpdateWP.Size = new System.Drawing.Size(75, 23);
-            this.btnUpdateWP.TabIndex = 15;
-            this.btnUpdateWP.Text = "Update WP";
-            this.btnUpdateWP.UseVisualStyleBackColor = true;
-            this.btnUpdateWP.Click += new System.EventHandler(this.btnUpdateWP_Click);
-            // 
-            // btnFaceThisDir
-            // 
-            this.btnFaceThisDir.Location = new System.Drawing.Point(184, 13);
-            this.btnFaceThisDir.Name = "btnFaceThisDir";
-            this.btnFaceThisDir.Size = new System.Drawing.Size(75, 23);
-            this.btnFaceThisDir.TabIndex = 16;
-            this.btnFaceThisDir.Text = "button3";
-            this.btnFaceThisDir.UseVisualStyleBackColor = true;
-            this.btnFaceThisDir.Click += new System.EventHandler(this.button3_Click);
             // 
             // txtboxData
             // 
@@ -234,20 +195,57 @@
             this.btnLoadPath.UseVisualStyleBackColor = true;
             this.btnLoadPath.Click += new System.EventHandler(this.btnLoadPath_Click);
             // 
+            // wpTimer
+            // 
+            this.wpTimer.Interval = 1000;
+            this.wpTimer.Tick += new System.EventHandler(this.wpTimer_Tick);
+            // 
+            // btnToggleMakeWP
+            // 
+            this.btnToggleMakeWP.Location = new System.Drawing.Point(94, 7);
+            this.btnToggleMakeWP.Name = "btnToggleMakeWP";
+            this.btnToggleMakeWP.Size = new System.Drawing.Size(59, 49);
+            this.btnToggleMakeWP.TabIndex = 20;
+            this.btnToggleMakeWP.Text = "WP Off";
+            this.btnToggleMakeWP.UseVisualStyleBackColor = true;
+            this.btnToggleMakeWP.Click += new System.EventHandler(this.btnToggleMakeWP_Click);
+            // 
+            // tmrTargetSearch
+            // 
+            this.tmrTargetSearch.Interval = 1000;
+            this.tmrTargetSearch.Tick += new System.EventHandler(this.tmrTargetSearch_Tick);
+            // 
+            // lblTarName
+            // 
+            this.lblTarName.AutoSize = true;
+            this.lblTarName.Location = new System.Drawing.Point(168, 97);
+            this.lblTarName.Name = "lblTarName";
+            this.lblTarName.Size = new System.Drawing.Size(35, 13);
+            this.lblTarName.TabIndex = 21;
+            this.lblTarName.Text = "label2";
+            // 
+            // lblTarHealth
+            // 
+            this.lblTarHealth.AutoSize = true;
+            this.lblTarHealth.Location = new System.Drawing.Point(171, 126);
+            this.lblTarHealth.Name = "lblTarHealth";
+            this.lblTarHealth.Size = new System.Drawing.Size(35, 13);
+            this.lblTarHealth.TabIndex = 22;
+            this.lblTarHealth.Text = "label3";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(526, 389);
+            this.ClientSize = new System.Drawing.Size(682, 389);
+            this.Controls.Add(this.lblTarHealth);
+            this.Controls.Add(this.lblTarName);
+            this.Controls.Add(this.btnToggleMakeWP);
             this.Controls.Add(this.btnLoadPath);
             this.Controls.Add(this.btnSavePath);
             this.Controls.Add(this.txtboxData);
-            this.Controls.Add(this.btnFaceThisDir);
-            this.Controls.Add(this.btnUpdateWP);
             this.Controls.Add(this.lblFaceDir);
             this.Controls.Add(this.btnFaceTar);
-            this.Controls.Add(this.btnWpShow);
-            this.Controls.Add(this.button2);
             this.Controls.Add(this.lblDestDelta);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.button1);
@@ -279,15 +277,16 @@
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label lblDestDelta;
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Button btnWpShow;
         private System.Windows.Forms.Button btnFaceTar;
         private System.Windows.Forms.Label lblFaceDir;
-        private System.Windows.Forms.Button btnUpdateWP;
-        private System.Windows.Forms.Button btnFaceThisDir;
         private System.Windows.Forms.TextBox txtboxData;
         private System.Windows.Forms.Button btnSavePath;
         private System.Windows.Forms.Button btnLoadPath;
+        private System.Windows.Forms.Timer wpTimer;
+        private System.Windows.Forms.Button btnToggleMakeWP;
+        private System.Windows.Forms.Timer tmrTargetSearch;
+        private System.Windows.Forms.Label lblTarName;
+        private System.Windows.Forms.Label lblTarHealth;
 
     }
 }

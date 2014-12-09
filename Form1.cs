@@ -26,13 +26,15 @@ namespace Penguin2
         public static String fileName = "C:/PathTester.bin";
 
         //private bool stopPathingLoop = false;
+        private bool looping = false;
         private bool movingForward = false;
-        private bool keepGoing = true;
+        private bool playerHasValidTarget = false;
 
         PlayerActions playerActions = new PlayerActions();
         WinHandleMethods windowHandle;
         Player firstPlayer;
         Mob firstMob;
+
 
         // Game Specific Information
         static string gameProcessName = "game.dll"; // upgrade to process picker
@@ -71,16 +73,16 @@ namespace Penguin2
 
             listBoxWaypoints.Items.Add("Starting character at " + now.ToString() + ".");
             listBoxWaypoints.Items.Add("Projected stop at " + next.ToString() + ".");
-            movingForward = true;
+            looping = true;
 
-            while (movingForward)
+            while (looping)
             {
                 windowHandle.setGameToFocusWindow();
                 System.Threading.Thread.Sleep(50);
                 playerActions.startMoveForward();
                 firstPlayer.updatePosition();
 
-                movingForward = true;
+                looping = true;
                 now = DateTime.Now;
 
                 // If destination time > start time
@@ -90,7 +92,7 @@ namespace Penguin2
                     listBoxWaypoints.Items.Add("Stopping character at" + now.ToString() + ".");
                     System.Threading.Thread.Sleep(50);
                     firstPlayer.updatePosition();
-                    movingForward = false;
+                    looping = false;
                 }
 
                 // give process time to other events
@@ -113,10 +115,14 @@ namespace Penguin2
 
         private void update() {
             firstPlayer.updatePosition();
+            firstPlayer.updateTargetInfo();
+            firstPlayer.updatePlayerStats();
             lblX.Text = firstPlayer.AbsoluteX.ToString();
             lblY.Text = firstPlayer.AbsoluteY.ToString();
             lblZ.Text = firstPlayer.AbsoluteZ.ToString();
             lblFacing.Text = (firstPlayer.AbsoluteFacing).ToString();
+            lblTarHealth.Text = firstPlayer.targetHealth.ToString();
+            lblTarName.Text = firstPlayer.targetName.ToString();
             
 
         }
@@ -128,20 +134,71 @@ namespace Penguin2
 
         private void button1_Click(object sender, EventArgs e)
         {
-            
+            //firstPlayer.playerOneLList.First();
+            windowHandle.setGameToFocusWindow();
+            System.Threading.Thread.Sleep(50);
             bool face = true;
             firstPlayer.updatePosition();
             firstPlayer.updateNextWaypoint();
 
             listBoxWaypoints.Items.Add("Starting character at " + firstPlayer.CurrWaypoint.ToString() + ".");
             listBoxWaypoints.Items.Add("Projected stop at " + firstPlayer.NextWaypoint.ToString() + ".");
-            movingForward = true;
+            looping = true;
 
             // Safety for testing purposes
-            DateTime stopTime = DateTime.Now.AddMilliseconds(10000);
+            DateTime stopTime = DateTime.Now.AddMilliseconds(2000);
+            
 
-            while (movingForward && stopTime >= DateTime.Now)
+            while (looping && stopTime >= DateTime.Now)
             {
+                bool paused = false;
+
+                firstPlayer.updatePosition();
+
+                if(firstPlayer.targetHealth > 0 && firstPlayer.targetHealth <= 100)
+                {
+                    // pause the loop
+                    if (!paused)
+                    {
+                        paused = true;
+                        playerActions.stopMoveForward();
+                        movingForward = false;
+                    }
+
+                    DateTime tarStopTime = DateTime.Now.AddMinutes(1);
+                    DateTime nextAttack = DateTime.Now.AddMilliseconds(1500);
+                    bool mobPulled = false;
+
+                    // attack loop
+                    while (firstPlayer.targetHealth > 0 && DateTime.Now < tarStopTime || firstPlayer.playerHealth < 100)
+                    {
+                        if (!mobPulled)
+                        {
+                            playerActions.faceMob();
+                            System.Threading.Thread.Sleep(50);
+                            playerActions.pullMob();
+                            mobPulled = true;
+                        }
+                        listBoxWaypoints.Items.Add("Attacking: " + firstPlayer.targetName);
+
+                        if (DateTime.Now >= nextAttack && firstPlayer.targetHealth > 0)
+                        {
+                            // attack
+                            playerActions.attack2();
+                            playerActions.attack1();
+                            listBoxWaypoints.Items.Add("With: Attack1");
+                            nextAttack = DateTime.Now.AddMilliseconds(1500);
+                        }
+
+                        Application.DoEvents();
+                    }
+                    
+                    
+                    stopTime = DateTime.Now.AddMilliseconds(4000);
+                    face = true; // trigger this to reestablish the correct heading
+                    paused = false;
+                }
+
                 firstPlayer.updatePosition();
                 float wpDir = firstPlayer.calcNextWpDir();
                 int intWpDir = (int)Math.Floor(wpDir);
@@ -150,19 +207,22 @@ namespace Penguin2
                 if (currDir != wpDir && face)
                 {
                     ReadMemory.WriteInt(add, intWpDir);
+                    listBoxWaypoints.Items.Clear();
                     listBoxWaypoints.Items.Add((intWpDir).ToString());
                     listBoxWaypoints.Items.Add("Writing to memory");
                     listBoxWaypoints.Items.Add("Curr: " + currDir.ToString());
                     listBoxWaypoints.Items.Add("Dest: " + wpDir.ToString());
                     face = false;
-                    System.Threading.Thread.Sleep(0);
                 }
 
                 windowHandle.setGameToFocusWindow();
                 System.Threading.Thread.Sleep(50);
-                playerActions.startMoveForward();
+                if (!movingForward && !paused)
+                {
+                    playerActions.startMoveForward();
+                }
                 firstPlayer.updatePosition();
-                
+
 
                 lblDestDelta.Text = firstPlayer.calcDistToPoint().ToString();
 
@@ -173,10 +233,10 @@ namespace Penguin2
                     listBoxWaypoints.Items.Add("Stopping character at" + firstPlayer.NextWaypoint.ToString() + ".");
                     System.Threading.Thread.Sleep(50);
                     face = true;
-                   
+
                     if (firstPlayer.PeekNextWaypoint() == null)
                     {
-                        movingForward = false;
+                        looping = false;
                     }
                     else
                     {
@@ -190,30 +250,10 @@ namespace Penguin2
                 // give process time to other events
                 Application.DoEvents();
             }
-            if (movingForward)
+            if (looping)
             {
                 playerActions.stopMoveForward();
             }
-        }
-
-        private void serializeQueueToSave()
-        {
-           
-        }
-
-        private Waypoint deserializeQueueToSave()
-        {
-            return null;
-        }
-
-        private void button2_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void btnWpShow_Click(object sender, EventArgs e)
-        {
-
         }
 
         private void btnFaceTar_Click(object sender, EventArgs e)
@@ -221,16 +261,6 @@ namespace Penguin2
             
             listBoxWaypoints.Items.Add( firstPlayer.calcNextWpDir());
             lblFaceDir.Text = firstPlayer.calcNextWpDir().ToString();
-            
-        }
-
-        private void btnUpdateWP_Click(object sender, EventArgs e)
-        {
-            
-        }
-
-        private void button3_Click(object sender, EventArgs e)
-        {
             
         }
 
@@ -253,10 +283,37 @@ namespace Penguin2
 
         private void btnLoadPath_Click(object sender, EventArgs e)
         {
+            listBoxWaypoints.Items.Add("Path Loaded! Ready.");
             BinaryFormatter binFormat = new BinaryFormatter();
             FileStream inOutFile = new FileStream(fileName, FileMode.OpenOrCreate, FileAccess.ReadWrite);
 
             firstPlayer.loadQueueFromSave((Queue<Waypoint>)binFormat.Deserialize(inOutFile));
+        }
+
+        private void wpTimer_Tick(object sender, EventArgs e)
+        {
+            btnAddWaypoint_Click(this, null);
+        }
+
+        private void btnToggleMakeWP_Click(object sender, EventArgs e)
+        {
+            
+            if (btnToggleMakeWP.Text == "WP Off")
+            {
+                btnToggleMakeWP.Text = "Tracking";
+
+                wpTimer.Enabled = true;
+            }
+            else
+            {
+                btnToggleMakeWP.Text = "WP Off";
+                wpTimer.Enabled = false;
+            }
+        }
+
+        private void tmrTargetSearch_Tick(object sender, EventArgs e)
+        {
+            playerActions.findTarget();
         }
 
     }

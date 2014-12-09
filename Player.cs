@@ -19,6 +19,15 @@ namespace Penguin2
         private int playerFacing;
         private float distanceToWaypoint;
 
+        public string targetName;
+        public int targetHealth;
+        public int targetType;
+
+        public int playerHealth;
+        //public int playerName;
+        public int playerEndurance;
+        public int playerPower;
+
         public Queue<Waypoint> playerOneQueue = new Queue<Waypoint>();
         public LinkedList<Waypoint> playerOneLList = new LinkedList<Waypoint>();
 
@@ -36,6 +45,13 @@ namespace Penguin2
             public static long absoluteYAddress = 0x22d18e0 + baseGameAddress;
             public static long absoluteZAddress = 0x22d18e4 + baseGameAddress;
             public static long mobFacingAddress = 0x0AAa0a0 + baseGameAddress;
+            public static long targetName = 0x1499620 + baseGameAddress;
+            public static long targetHealth = 0x14991ac + baseGameAddress;
+            public static long targetType = 0x14991b0 + baseGameAddress; // 2 = friendly; 3 = nothing; 6 = mob
+            public static long playerHealth = 0x1499198 + baseGameAddress;
+            public static long playerEndurance = 0x14991a0 + baseGameAddress;
+            public static long playerPower = 0x14991a4 + baseGameAddress;
+
             public static long baseGameAddress = 0x0400000;
         }
 
@@ -56,6 +72,20 @@ namespace Penguin2
             absoluteZ = ReadMemory.readFloat(MemoryAddresses.absoluteZAddress);
             playerFacing = ReadMemory.readInt(MemoryAddresses.mobFacingAddress);
             currWaypoint.updateWaypoint(absoluteX, absoluteY, absoluteZ, playerFacing);
+        }
+
+        public void updateTargetInfo()
+        {
+            targetName = ReadMemory.ReadAsciiString(MemoryAddresses.targetName, 20);
+            targetHealth = ReadMemory.readInt(MemoryAddresses.targetHealth);
+            targetType = ReadMemory.readInt(MemoryAddresses.targetType);
+        }
+
+        public void updatePlayerStats()
+        {
+            playerHealth = ReadMemory.readInt(MemoryAddresses.playerHealth);
+            playerEndurance = ReadMemory.readInt(MemoryAddresses.playerEndurance);
+            playerPower = ReadMemory.readInt(MemoryAddresses.playerPower);
         }
 
         public void updateNextWaypoint()
@@ -199,7 +229,10 @@ namespace Penguin2
 
         public Waypoint removeFromQueue()
         {
-            return playerOneQueue.Dequeue();
+            Waypoint prev = playerOneQueue.Dequeue();
+            playerOneLList.AddLast(prev);
+            prevWaypoint = prev;
+            return prev;
         }
 
         public Queue<Waypoint> returnQueueForSave()

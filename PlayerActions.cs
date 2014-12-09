@@ -68,8 +68,29 @@ namespace Penguin2
         }
         public void attack1()
         {
-            input.SendText("hi");
+            input.SendKey(Keys.One);
+        }
+
+        public void attack2()
+        {
             input.SendKey(Keys.Two);
         }
+
+        public void findTarget()
+        {
+            input.SendKey(Keys.Tab);
+        }
+
+        public void pullMob()
+        {
+            input.SendKey(Keys.Four);
+        }
+
+        public void faceMob()
+        {
+            input.SendKey(Keys.B);
+        }
+
+
     }
 }
