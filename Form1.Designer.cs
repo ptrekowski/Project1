@@ -50,6 +50,8 @@
             this.tmrTargetSearch = new System.Windows.Forms.Timer(this.components);
             this.lblTarName = new System.Windows.Forms.Label();
             this.lblTarHealth = new System.Windows.Forms.Label();
+            this.picBoxDrawSurface = new System.Windows.Forms.PictureBox();
+            ((System.ComponentModel.ISupportInitialize)(this.picBoxDrawSurface)).BeginInit();
             this.SuspendLayout();
             // 
             // btnAddWaypoint
@@ -233,11 +235,22 @@
             this.lblTarHealth.TabIndex = 22;
             this.lblTarHealth.Text = "label3";
             // 
+            // picBoxDrawSurface
+            // 
+            this.picBoxDrawSurface.BackColor = System.Drawing.SystemColors.AppWorkspace;
+            this.picBoxDrawSurface.Location = new System.Drawing.Point(464, 13);
+            this.picBoxDrawSurface.Name = "picBoxDrawSurface";
+            this.picBoxDrawSurface.Size = new System.Drawing.Size(200, 200);
+            this.picBoxDrawSurface.TabIndex = 23;
+            this.picBoxDrawSurface.TabStop = false;
+            this.picBoxDrawSurface.Paint += new System.Windows.Forms.PaintEventHandler(this.picBoxDrawSurface_Paint);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(682, 389);
+            this.Controls.Add(this.picBoxDrawSurface);
             this.Controls.Add(this.lblTarHealth);
             this.Controls.Add(this.lblTarName);
             this.Controls.Add(this.btnToggleMakeWP);
@@ -256,10 +269,12 @@
             this.Controls.Add(this.btnStart);
             this.Controls.Add(this.listBoxWaypoints);
             this.Controls.Add(this.btnAddWaypoint);
+            this.ForeColor = System.Drawing.SystemColors.ControlText;
             this.Name = "Form1";
             this.Text = "Waypoints";
             this.TopMost = true;
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Form1_FormClosed);
+            ((System.ComponentModel.ISupportInitialize)(this.picBoxDrawSurface)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -288,6 +303,7 @@
         private System.Windows.Forms.Timer tmrTargetSearch;
         private System.Windows.Forms.Label lblTarName;
         private System.Windows.Forms.Label lblTarHealth;
+        private System.Windows.Forms.PictureBox picBoxDrawSurface;
 
     }
 }

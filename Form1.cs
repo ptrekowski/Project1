@@ -124,6 +124,7 @@ namespace Penguin2
             lblFacing.Text = (firstPlayer.AbsoluteFacing).ToString();
             lblTarHealth.Text = firstPlayer.targetHealth.ToString();
             lblTarName.Text = firstPlayer.targetName.ToString();
+            picBoxDrawSurface.Invalidate();
             
             
 
@@ -360,6 +361,47 @@ namespace Penguin2
         {
             continueRunning = false;
             Application.Exit();
+        }
+
+        private void drawMap(object sender, System.Windows.Forms.PaintEventArgs pe)
+        {
+            Graphics g = pe.Graphics;
+            System.Drawing.Pen myPen = new System.Drawing.Pen(System.Drawing.Color.White);
+            g.DrawEllipse(myPen, new System.Drawing.Rectangle(0, 0, 10, 10));
+            myPen.Dispose();
+            g.Dispose();
+        }
+
+        private void drawMapPoint()
+        {
+            System.Drawing.Pen myPen = new System.Drawing.Pen(System.Drawing.Color.White);
+            
+        }
+
+        private void picBoxDrawSurface_Paint(object sender, PaintEventArgs e)
+        {
+            Graphics g = e.Graphics;
+            System.Drawing.Pen myPen = new System.Drawing.Pen(System.Drawing.Color.White);
+            System.Drawing.Pen currentPointPen = new System.Drawing.Pen(System.Drawing.Color.Red);
+            int scale = 60000 / 200;
+
+            int currX = (int)firstPlayer.CurrWaypoint.X / scale;
+            int currY = (int)firstPlayer.CurrWaypoint.Y / scale;
+           
+            
+
+            int[] xLen = {100, 5000, 15000, 20000, 35000, 45000, 60000};
+            int[] yLen = { 50, 2500, 37000, 50000, 60000, 1300, 900 };
+
+            for (int i = 0; i < xLen.Length; i++)
+            {
+                int x = xLen[i] / scale;
+                int y = yLen[i] / scale;
+                g.DrawEllipse(myPen, new System.Drawing.Rectangle(x, y, 3, 3));
+            }
+            g.DrawEllipse(currentPointPen, new System.Drawing.Rectangle(currX, currY, 3, 3));
+            
+            myPen.Dispose();
         }
     }
 }
