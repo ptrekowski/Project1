@@ -199,7 +199,7 @@
             // 
             // wpTimer
             // 
-            this.wpTimer.Interval = 1000;
+            this.wpTimer.Interval = 250;
             this.wpTimer.Tick += new System.EventHandler(this.wpTimer_Tick);
             // 
             // btnToggleMakeWP

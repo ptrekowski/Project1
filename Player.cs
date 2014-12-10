@@ -29,6 +29,7 @@ namespace Penguin2
         public int playerPower;
 
         public Queue<Waypoint> playerOneQueue = new Queue<Waypoint>();
+        public Queue<Waypoint> mapQueue = new Queue<Waypoint>();
         public LinkedList<Waypoint> playerOneLList = new LinkedList<Waypoint>();
 
         private Waypoint prevWaypoint = new Waypoint();
@@ -250,6 +251,7 @@ namespace Penguin2
         public void loadQueueFromSave(Queue<Waypoint> wpQueue)
         {
             this.playerOneQueue = (wpQueue);
+            this.mapQueue = wpQueue;
         }
 
         public Waypoint CurrWaypoint

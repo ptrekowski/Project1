@@ -22,7 +22,7 @@ namespace Penguin2
         // must hardcode this with a module
         // written to address for direction (ESI)+ 0x02
         // long add = 0xa270040; 
-        long add = 0xa1d0040;
+        long add = 0xa160040;
 
         public static String fileName = "C:/PathTester.bin";
 
@@ -383,22 +383,26 @@ namespace Penguin2
             Graphics g = e.Graphics;
             System.Drawing.Pen myPen = new System.Drawing.Pen(System.Drawing.Color.White);
             System.Drawing.Pen currentPointPen = new System.Drawing.Pen(System.Drawing.Color.Red);
-            int scale = 60000 / 200;
+            System.Drawing.Pen nextPointPen = new System.Drawing.Pen(System.Drawing.Color.Yellow);
+            int scale = 6000 / 200;
 
             int currX = (int)firstPlayer.CurrWaypoint.X / scale;
             int currY = (int)firstPlayer.CurrWaypoint.Y / scale;
-           
+            
+            int nextX = (int)firstPlayer.NextWaypoint.X;
+            int nextY = (int)firstPlayer.NextWaypoint.Y;
             
 
-            int[] xLen = {100, 5000, 15000, 20000, 35000, 45000, 60000};
-            int[] yLen = { 50, 2500, 37000, 50000, 60000, 1300, 900 };
+            //int[] xLen = {100, 5000, 15000, 20000, 35000, 45000, 60000};
+            //int[] yLen = { 50, 2500, 37000, 50000, 60000, 1300, 900 };
 
-            for (int i = 0; i < xLen.Length; i++)
+            foreach(Waypoint wp in firstPlayer.mapQueue)
             {
-                int x = xLen[i] / scale;
-                int y = yLen[i] / scale;
+                int x = (int)wp.X / scale;
+                int y = (int)wp.Y / scale;
                 g.DrawEllipse(myPen, new System.Drawing.Rectangle(x, y, 3, 3));
             }
+            g.DrawEllipse(nextPointPen, new System.Drawing.Rectangle(nextX, nextY, 3, 3));
             g.DrawEllipse(currentPointPen, new System.Drawing.Rectangle(currX, currY, 3, 3));
             
             myPen.Dispose();
